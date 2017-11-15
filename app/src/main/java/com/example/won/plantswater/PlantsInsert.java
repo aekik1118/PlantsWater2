@@ -1,94 +1,192 @@
 package com.example.won.plantswater;
 
-import android.content.ActivityNotFoundException;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-public class PlantsInsert extends AppCompatActivity {
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 
-    private static final int PICK_FROM_CAMERA = 1;
-    private static final int PICK_FROM_GALLERY = 2;
-    private ImageView imgview;
+public class PlantsInsert extends Activity implements View.OnClickListener {
+
+    private static final int PICK_FROM_CAMERA = 0;
+    private static final int PICK_FROM_ALBULM = 1;
+    private static final int CROP_FROM_IMAGE = 2;
+
+    private Uri mlmageCaptureUri;
+    private ImageView iv_UserPhoto;
+    private int id_view;
+    private String absoultePath;
+
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plants_insert);
-        imgview = (ImageView) findViewById(R.id.imageView2);
-        Button buttonCamera = (Button) findViewById(R.id.button);
-        Button buttonGallery = (Button) findViewById(R.id.button2);
 
-        buttonCamera.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
 
-                // 카메라 호출
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT,
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI.toString());
+        iv_UserPhoto = (ImageView) this.findViewById(R.id.imageView2);
+        Button btn_agreeJoin = (Button) this.findViewById(R.id.button);
 
-                // 이미지 잘라내기 위한 크기
-                intent.putExtra("crop", "true");
-                intent.putExtra("aspectX", 0);
-                intent.putExtra("aspectY", 0);
-                intent.putExtra("outputX", 200);
-                intent.putExtra("outputY", 150);
-
-                try {
-                    intent.putExtra("return-data", true);
-                    startActivityForResult(intent, PICK_FROM_CAMERA);
-                } catch (ActivityNotFoundException e) {
-                    // Do nothing for now
-                }
-            }
-        });
-
-        buttonGallery.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                Intent intent = new Intent();
-                // Gallery 호출
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                // 잘라내기 셋팅
-                intent.putExtra("crop", "true");
-                intent.putExtra("aspectX", 0);
-                intent.putExtra("aspectY", 0);
-                intent.putExtra("outputX", 200);
-                intent.putExtra("outputY", 150);
-                try {
-                    intent.putExtra("return-data", true);
-                    startActivityForResult(Intent.createChooser(intent,
-                            "Complete action using"), PICK_FROM_GALLERY);
-                } catch (ActivityNotFoundException e) {
-                    // Do nothing for now
-                }
-            }
-        });
+        btn_agreeJoin.setOnClickListener(this);
     }
 
-    protected void onActivityResult(int requestCode,
-                                    int resultCode,
-                                    Intent data) {
+    public void doTakePhotoAction() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-        if (requestCode == PICK_FROM_CAMERA) {
-            Bundle extras = data.getExtras();
-            if (extras != null) {
-                Bitmap photo = extras.getParcelable("data");
-                imgview.setImageBitmap(photo);
+        String url = "tmp_" + String.valueOf(System.currentTimeMillis()) + ".jpg";
+        mlmageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), url));
+
+        intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mlmageCaptureUri);
+        startActivityForResult(intent, PICK_FROM_CAMERA);
+
+    }
+
+    public void doTakeAlbumAction() {
+
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+        startActivityForResult(intent, PICK_FROM_ALBULM);
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode != RESULT_OK)
+            return;
+
+        switch (requestCode) {
+            case PICK_FROM_ALBULM: {
+                mlmageCaptureUri = data.getData();
+                Log.d("SmartWheel", mlmageCaptureUri.getPath().toString());
+            }
+
+            case PICK_FROM_CAMERA: {
+                Intent intent = new Intent("com.android.camera.action.CROP");
+                intent.setDataAndType(mlmageCaptureUri, "image/*");
+
+                intent.putExtra("outputX", 200);
+                intent.putExtra("outputY", 200);
+                intent.putExtra("aspectX", 1);
+                intent.putExtra("aspectY", 1);
+                intent.putExtra("scale", true);
+                intent.putExtra("return-data", true);
+                startActivityForResult(intent, CROP_FROM_IMAGE);
+
+                break;
+            }
+
+            case CROP_FROM_IMAGE: {
+
+                if (resultCode != RESULT_OK) {
+                    return;
+
+                }
+                final Bundle extras = data.getExtras();
+
+                String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() +
+                        "/SmartWheel/" + System.currentTimeMillis() + ".jpg";
+
+                if (extras != null) {
+                    Bitmap photo = extras.getParcelable("data");
+                    iv_UserPhoto.setImageBitmap(photo);
+                    storeCropImage(photo, filePath);
+                    absoultePath = filePath;
+                    break;
+                }
+
+                File f = new File(mlmageCaptureUri.getPath());
+                if (f.exists()) {
+                    f.delete();
+                }
             }
         }
-        if (requestCode == PICK_FROM_GALLERY) {
-            Bundle extras2 = data.getExtras();
-            if (extras2 != null) {
-                Bitmap photo = extras2.getParcelable("data");
-                imgview.setImageBitmap(photo);
-            }
+
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        id_view = v.getId();
+        if (v.getId() == R.id.button) {
+
+
+            DialogInterface.OnClickListener cameraListener = new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    doTakePhotoAction();
+                }
+            };
+            DialogInterface.OnClickListener albumListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    doTakeAlbumAction();
+                }
+            };
+
+            DialogInterface.OnClickListener cancelListener = new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            };
+
+            new AlertDialog.Builder(this)
+                    .setTitle("업로드할 이미지 선택")
+                    .setPositiveButton("사진촬영", cameraListener)
+                    .setNeutralButton("앨범선택", albumListener)
+                    .setNegativeButton("취소", cancelListener)
+                    .show();
         }
     }
+
+
+private void storeCropImage(Bitmap bitmap, String filePath) {
+
+    String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/smartWheel";
+    File directory_SmartWheel = new File(dirPath);
+
+    if(!directory_SmartWheel.exists())
+        directory_SmartWheel.mkdir();
+
+    File copyFile = new File(filePath);
+    BufferedOutputStream out = null;
+
+    try {
+
+        copyFile.createNewFile();
+        out = new BufferedOutputStream(new FileOutputStream(copyFile));
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+
+        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(copyFile)));
+
+        out.flush();
+        out.close();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    }
+
 }
+
+
+
+
