@@ -30,7 +30,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 android:orientation="horizontal">
 
                 <Button
@@ -38,63 +38,15 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.5"
-                    android:text="사진 촬영" />
-
-                <Button
-                    android:id="@+id/button2"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.5"
-                    android:text="갤러리에서 사진 가져오기" />
+                    android:text="사진 선택" />
 
             </LinearLayout>
-
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2">
-
-                <RadioButton
-                    android:id="@+id/radioButton5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:text="RadioButton" />
-
-                <RadioButton
-                    android:id="@+id/radioButton4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:text="RadioButton" />
-
-                <RadioButton
-                    android:id="@+id/radioButton3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:text="RadioButton" />
-
-                <RadioButton
-                    android:id="@+id/radioButton2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:text="RadioButton" />
-
-                <RadioButton
-                    android:id="@+id/radioButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:text="RadioButton" />
-            </RadioGroup>
 
             <Button
                 android:id="@+id/button1"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 android:text="식물 추가 완료" />
 
         </LinearLayout>
