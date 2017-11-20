@@ -24,7 +24,7 @@ public class PlantsInsert extends Activity implements View.OnClickListener {
     private static final int PICK_FROM_ALBULM = 1;
     private static final int CROP_FROM_IMAGE = 2;
 
-    private Uri mlmageCaptureUri;
+    private Uri mImageCaptureUri;
     private ImageView iv_UserPhoto;
     private int id_view;
     private String absoultePath;
@@ -48,9 +48,9 @@ public class PlantsInsert extends Activity implements View.OnClickListener {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         String url = "tmp_" + String.valueOf(System.currentTimeMillis()) + ".jpg";
-        mlmageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), url));
+        mImageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), url));
 
-        intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mlmageCaptureUri);
+        intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
         startActivityForResult(intent, PICK_FROM_CAMERA);
 
     }
@@ -72,13 +72,13 @@ public class PlantsInsert extends Activity implements View.OnClickListener {
 
         switch (requestCode) {
             case PICK_FROM_ALBULM: {
-                mlmageCaptureUri = data.getData();
-                Log.d("SmartWheel", mlmageCaptureUri.getPath().toString());
+                mImageCaptureUri = data.getData();
+                Log.d("SmartWheel", mImageCaptureUri.getPath().toString());
             }
 
             case PICK_FROM_CAMERA: {
                 Intent intent = new Intent("com.android.camera.action.CROP");
-                intent.setDataAndType(mlmageCaptureUri, "image/*");
+                intent.setDataAndType(mImageCaptureUri, "image/*");
 
                 intent.putExtra("outputX", 200);
                 intent.putExtra("outputY", 200);
@@ -110,7 +110,7 @@ public class PlantsInsert extends Activity implements View.OnClickListener {
                     break;
                 }
 
-                File f = new File(mlmageCaptureUri.getPath());
+                File f = new File(mImageCaptureUri.getPath());
                 if (f.exists()) {
                     f.delete();
                 }
