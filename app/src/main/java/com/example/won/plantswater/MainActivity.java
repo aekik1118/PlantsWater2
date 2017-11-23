@@ -5,9 +5,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,10 +23,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,LIST_MENU);
 
-        ListView listView = (ListView) findViewById(R.id.listView1);
-        listView.setAdapter(adapter);
+
+        //ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,LIST_MENU);
+
+        final ListView listView = (ListView) findViewById(R.id.listView1);
+        //listView.setAdapter(adapter);
 
         Button button = (Button)findViewById(R.id.button4);
         button.setOnClickListener(new View.OnClickListener() {
@@ -33,6 +36,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this,PlantsInsert.class);
                 startActivity(intent);
+            }
+        });
+
+        Button button1 = (Button)findViewById(R.id.button2);
+        button1.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                //listView.setVisibility(View.VISIBLE);
+                PlantsList(listView);
             }
         });
 
@@ -58,6 +70,14 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Log.d(TAG, "Memo database is not open.");
         }
+    }
+
+    public void PlantsList(ListView listview) {
+        PlantsDB.DatabaseHelper helper = mDatabase.DBHelper();
+
+        List plants = helper.getAllPlants();
+
+        listview.setAdapter(new PlantsListAdapter(plants, MainActivity.this));
     }
 
 

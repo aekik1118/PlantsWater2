@@ -4,7 +4,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
+
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by aekik on 2017-11-16.
@@ -26,9 +34,8 @@ public class PlantsDB {
 
     private DatabaseHelper dbHelper;
 
-    private PlantsDB(Context context) {
-        this.context = context;
-    }
+    private PlantsDB(Context context) {this.context = context;}
+
 
 
     public static PlantsDB getInstance(Context context) {
@@ -39,17 +46,21 @@ public class PlantsDB {
         return database;
     }
 
-    private class DatabaseHelper extends SQLiteOpenHelper {
+    public DatabaseHelper DBHelper() {
+        return dbHelper;
+    }
+
+    public class DatabaseHelper extends SQLiteOpenHelper {
 
         public DatabaseHelper(Context context) {
             super(context, BasicInfo.DATABASE_NAME, null, DATABASE_VERSION);
         }
 
         public void onCreate(SQLiteDatabase db) {
+
             println("creating database [" + BasicInfo.DATABASE_NAME + "].");
-
-
             println("creating table [" + TABLE_NAME + "].");
+
 
             // create table
             String CREATE_SQL = "create table " + TABLE_NAME + "("
@@ -65,7 +76,9 @@ public class PlantsDB {
             } catch (Exception ex) {
                 Log.e(TAG, "Exception in CREATE_SQL", ex);
             }
+
         }
+
 
         public void onOpen(SQLiteDatabase db) {
             println("opened database [" + BasicInfo.DATABASE_NAME + "].");
@@ -77,8 +90,59 @@ public class PlantsDB {
         public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 
         }
-    }
 
+        public List getAllPlants() {
+            StringBuffer sb = new StringBuffer();
+            sb.append(" SELECT NAME, WATER_PERIOD, PHOTO, RECENT FROM Plants ");
+
+            db = getReadableDatabase();
+
+            Cursor cursor = db.rawQuery(sb.toString(), null);
+
+            List plants = new ArrayList();
+            Plants plant = null;
+
+            while(cursor.moveToNext()){
+                plant = new Plants();
+                plant.setName(cursor.getString(0));
+                plant.setWater_period(cursor.getInt(1));
+
+                String url = cursor.getString(2);
+                plant.setPhoto(getBitmap(url));
+
+                plant.setRecent(cursor.getString(3));
+
+                plants.add(plant);
+            }
+            println("getAllPlants\n");
+            return plants;
+        }
+
+        private Bitmap getBitmap(String url) {
+            URL imgUrl = null;
+            HttpURLConnection connection = null;
+            InputStream is = null;
+            Bitmap retBitmap = null;
+
+            try {
+                imgUrl = new URL(url);
+                connection = (HttpURLConnection) imgUrl.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                is = connection.getInputStream();
+                retBitmap = BitmapFactory.decodeStream(is);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            } finally {
+                if (connection != null) {
+                    connection.disconnect();
+                }
+                return retBitmap;
+            }
+        }
+    }
     public boolean open() {
         println("opening database [" + BasicInfo.DATABASE_NAME + "].");
 
@@ -102,7 +166,6 @@ public class PlantsDB {
 
         return c1;
     }
-
 
     private void println(String msg) {
         Log.d(TAG, msg);

@@ -13,6 +13,12 @@
         android:layout_height="40sp"
         android:text="식물 추가하기" />
 
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="식물 목록" />
+
     <ListView
         android:id="@+id/listView1"
         android:layout_width="match_parent"
