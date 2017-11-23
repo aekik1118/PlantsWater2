@@ -1,22 +1,31 @@
 package com.example.won.plantswater;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlantsInsert extends Activity implements View.OnClickListener {
 
@@ -29,6 +38,9 @@ public class PlantsInsert extends Activity implements View.OnClickListener {
     private int id_view;
     private String absoultePath;
 
+    private String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}; //권한 설정 변수
+    private static final int MULTIPLE_PERMISSIONS = 101; //권한 동의 여부 문의 후 CallBack 함수에 쓰일 변수
+
 
 
     @Override
@@ -36,6 +48,8 @@ public class PlantsInsert extends Activity implements View.OnClickListener {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plants_insert);
+
+        //checkPermissions();
 
 
         iv_UserPhoto = (ImageView) this.findViewById(R.id.imageView2);
@@ -48,7 +62,16 @@ public class PlantsInsert extends Activity implements View.OnClickListener {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         String url = "tmp_" + String.valueOf(System.currentTimeMillis()) + ".jpg";
-        mImageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), url));
+       // mImageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), url));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//sdk 24 이상, 누가(7.0)
+            mImageCaptureUri = FileProvider.getUriForFile(PlantsInsert.this,"com.example.won.plantswater.provider",new File(Environment.getExternalStorageDirectory(), url));
+        } else {//sdk 23 이하, 7.0 미만
+            mImageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), url));
+        }
+
+
+
 
         intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
         startActivityForResult(intent, PICK_FROM_CAMERA);
@@ -59,6 +82,10 @@ public class PlantsInsert extends Activity implements View.OnClickListener {
 
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+
         startActivityForResult(intent, PICK_FROM_ALBULM);
 
     }
@@ -74,6 +101,8 @@ public class PlantsInsert extends Activity implements View.OnClickListener {
             case PICK_FROM_ALBULM: {
                 mImageCaptureUri = data.getData();
                 Log.d("SmartWheel", mImageCaptureUri.getPath().toString());
+
+
             }
 
             case PICK_FROM_CAMERA: {
@@ -86,6 +115,10 @@ public class PlantsInsert extends Activity implements View.OnClickListener {
                 intent.putExtra("aspectY", 1);
                 intent.putExtra("scale", true);
                 intent.putExtra("return-data", true);
+
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+
                 startActivityForResult(intent, CROP_FROM_IMAGE);
 
                 break;
@@ -119,6 +152,8 @@ public class PlantsInsert extends Activity implements View.OnClickListener {
 
 
     }
+
+
 
     @Override
     public void onClick(View v) {
@@ -184,6 +219,60 @@ private void storeCropImage(Bitmap bitmap, String filePath) {
     }
 
     }
+
+    private boolean checkPermissions() {
+        int result;
+        List<String> permissionList = new ArrayList<>();
+        for (String pm : permissions) {
+            result = ContextCompat.checkSelfPermission(this, pm);
+            if (result != PackageManager.PERMISSION_GRANTED) { //사용자가 해당 권한을 가지고 있지 않을 경우 리스트에 해당 권한명 추가
+                permissionList.add(pm);
+            }
+        }
+        if (!permissionList.isEmpty()) { //권한이 추가되었으면 해당 리스트가 empty가 아니므로 request 즉 권한을 요청합니다.
+            ActivityCompat.requestPermissions(this, permissionList.toArray(new String[permissionList.size()]), MULTIPLE_PERMISSIONS);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MULTIPLE_PERMISSIONS: {
+                if (grantResults.length > 0) {
+                    for (int i = 0; i < permissions.length; i++) {
+                        if (permissions[i].equals(this.permissions[0])) {
+                            if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                                showNoPermissionToastAndFinish();
+                            }
+                        } else if (permissions[i].equals(this.permissions[1])) {
+                            if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                                showNoPermissionToastAndFinish();
+
+                            }
+                        } else if (permissions[i].equals(this.permissions[2])) {
+                            if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                                showNoPermissionToastAndFinish();
+
+                            }
+                        }
+                    }
+                } else {
+                    showNoPermissionToastAndFinish();
+                }
+                return;
+            }
+        }
+    }
+
+    //권한 획득에 동의를 하지 않았을 경우 아래 Toast 메세지를 띄우며 해당 Activity를 종료시킵니다.
+    private void showNoPermissionToastAndFinish() {
+        Toast.makeText(this, "권한 요청에 동의 해주셔야 이용 가능합니다. 설정에서 권한 허용 하시기 바랍니다.", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+
 
 }
 
