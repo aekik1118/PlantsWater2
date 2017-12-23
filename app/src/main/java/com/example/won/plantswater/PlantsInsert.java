@@ -18,7 +18,9 @@ import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import java.io.BufferedOutputStream;
@@ -54,9 +56,45 @@ public class PlantsInsert extends Activity implements View.OnClickListener {
 
         iv_UserPhoto = (ImageView) this.findViewById(R.id.imageView2);
         Button btn_agreeJoin = (Button) this.findViewById(R.id.button);
+        Button btn_add = (Button)this.findViewById(R.id.button1);
+        final EditText et_name = (EditText)this.findViewById(R.id.editText);
 
+        final RadioButton rbtn_harf = (RadioButton)this.findViewById(R.id.radioButton3);
+        final RadioButton rbtn_one = (RadioButton)this.findViewById(R.id.radioButton2);
+        final RadioButton rbtn_two = (RadioButton)this.findViewById(R.id.radioButton6);
+        final RadioButton rbtn_tri = (RadioButton)this.findViewById(R.id.radioButton4);
+        final RadioButton rbtn_week = (RadioButton)this.findViewById(R.id.radioButton5);
+        rbtn_harf.setChecked(true);
+
+        btn_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int pr=0;
+
+                 if(et_name.getText().toString().length() == 0)
+                 {
+                     Toast.makeText(PlantsInsert.this, "이름을 입력해 주세요", Toast.LENGTH_SHORT).show();
+                 }
+                 else if(rbtn_harf.isChecked())
+                     pr = 12;
+                 else if(rbtn_one.isChecked())
+                     pr = 24;
+                 else if(rbtn_two.isChecked())
+                     pr = 48;
+                 else if(rbtn_tri.isChecked())
+                     pr = 72;
+                 else
+                     pr = 168;
+
+                MainActivity.mDatabase.insertData(et_name.getText().toString(),null,pr);
+
+
+
+            }
+        });
         btn_agreeJoin.setOnClickListener(this);
     }
+
 
     public void doTakePhotoAction() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

@@ -22,9 +22,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-
         //ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,LIST_MENU);
 
         final ListView listView = (ListView) findViewById(R.id.listView1);
@@ -55,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
 
         // 데이터베이스 열기
         openDatabase();
-
         super.onStart();
     }
 
@@ -66,17 +62,14 @@ public class MainActivity extends AppCompatActivity {
         mDatabase = PlantsDB.getInstance(this);
         boolean isOpen = mDatabase.open();
         if (isOpen) {
-            Log.d(TAG, "Memo database is open.");
+            Log.d(TAG, "database is open.");
         } else {
-            Log.d(TAG, "Memo database is not open.");
+            Log.d(TAG, "database is not open.");
         }
     }
 
     public void PlantsList(ListView listview) {
-        PlantsDB.DatabaseHelper helper = mDatabase.DBHelper();
-
-        List plants = helper.getAllPlants();
-
+        List plants = mDatabase.getAllPlants();
         listview.setAdapter(new PlantsListAdapter(plants, MainActivity.this));
     }
 
