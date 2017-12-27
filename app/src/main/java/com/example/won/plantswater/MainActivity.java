@@ -14,8 +14,6 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
 
-    static final String[] LIST_MENU = {"LIST1","LIST2","LIST3"};
-
     public static PlantsDB mDatabase = null;
 
     @Override
@@ -72,6 +70,4 @@ public class MainActivity extends AppCompatActivity {
         List plants = mDatabase.getAllPlants();
         listview.setAdapter(new PlantsListAdapter(plants, MainActivity.this));
     }
-
-
 }

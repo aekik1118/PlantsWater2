@@ -44,7 +44,6 @@ public class PlantsInsert extends Activity implements View.OnClickListener {
     private static final int MULTIPLE_PERMISSIONS = 101; //권한 동의 여부 문의 후 CallBack 함수에 쓰일 변수
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -74,6 +73,7 @@ public class PlantsInsert extends Activity implements View.OnClickListener {
                  if(et_name.getText().toString().length() == 0)
                  {
                      Toast.makeText(PlantsInsert.this, "이름을 입력해 주세요", Toast.LENGTH_SHORT).show();
+                     return;
                  }
                  else if(rbtn_harf.isChecked())
                      pr = 12;
@@ -87,9 +87,9 @@ public class PlantsInsert extends Activity implements View.OnClickListener {
                      pr = 168;
 
                 MainActivity.mDatabase.insertData(et_name.getText().toString(),null,pr);
-
-
-
+                Toast.makeText(PlantsInsert.this, "식물 추가 완료", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(PlantsInsert.this,MainActivity.class);
+                startActivity(intent);
             }
         });
         btn_agreeJoin.setOnClickListener(this);
@@ -107,9 +107,6 @@ public class PlantsInsert extends Activity implements View.OnClickListener {
         } else {//sdk 23 이하, 7.0 미만
             mImageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), url));
         }
-
-
-
 
         intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
         startActivityForResult(intent, PICK_FROM_CAMERA);
@@ -190,9 +187,6 @@ public class PlantsInsert extends Activity implements View.OnClickListener {
 
 
     }
-
-
-
     @Override
     public void onClick(View v) {
         id_view = v.getId();

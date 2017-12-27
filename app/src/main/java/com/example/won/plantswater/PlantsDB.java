@@ -66,7 +66,7 @@ public class PlantsDB {
                     + "  NAME TEXT DEFAULT '', "
                     + "  WATER_PERIOD INTEGER, "
                     + "  PHOTO TEXT, "
-                    + "  RECENT DATETIME"
+                    + "  RECENT TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
                     + ")";
             try {
                 db.execSQL(CREATE_SQL);
