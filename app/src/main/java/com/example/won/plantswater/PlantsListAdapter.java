@@ -19,6 +19,10 @@ public class PlantsListAdapter extends BaseAdapter {
     private List plants;
     private Context context;
 
+
+
+    
+
     public  PlantsListAdapter(List plants, Context context){
         this.plants = plants;
         this.context = context;
