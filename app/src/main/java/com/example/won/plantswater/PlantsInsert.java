@@ -40,6 +40,8 @@ public class PlantsInsert extends Activity implements View.OnClickListener {
     private int id_view;
     private String absoultePath;
 
+    public static final String TAG = "PlantsInsert";
+
     private String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}; //권한 설정 변수
     private static final int MULTIPLE_PERMISSIONS = 101; //권한 동의 여부 문의 후 CallBack 함수에 쓰일 변수
 
@@ -50,7 +52,7 @@ public class PlantsInsert extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plants_insert);
 
-        //checkPermissions();
+        checkPermissions();
 
 
         iv_UserPhoto = (ImageView) this.findViewById(R.id.imageView2);
@@ -100,7 +102,9 @@ public class PlantsInsert extends Activity implements View.OnClickListener {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         String url = "tmp_" + String.valueOf(System.currentTimeMillis()) + ".jpg";
-       // mImageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), url));
+        mImageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), url));
+
+        Log.d(TAG,mImageCaptureUri+"");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//sdk 24 이상, 누가(7.0)
             mImageCaptureUri = FileProvider.getUriForFile(PlantsInsert.this,"com.example.won.plantswater.provider",new File(Environment.getExternalStorageDirectory(), url));

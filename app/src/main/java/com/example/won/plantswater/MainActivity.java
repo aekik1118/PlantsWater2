@@ -13,6 +13,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
+    private ListView listView;
 
     public static PlantsDB mDatabase = null;
 
@@ -22,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,LIST_MENU);
 
-        final ListView listView = (ListView) findViewById(R.id.listView1);
+        listView = (ListView) findViewById(R.id.listView1);
         //listView.setAdapter(adapter);
 
         Button button = (Button)findViewById(R.id.button4);
@@ -34,14 +35,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button button1 = (Button)findViewById(R.id.button2);
-        button1.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                //listView.setVisibility(View.VISIBLE);
-                PlantsList(listView);
-            }
-        });
+        Log.d(TAG, "Oncreate()");
 
     }
 
@@ -50,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         // 데이터베이스 열기
         openDatabase();
+        PlantsList(listView);
         super.onStart();
     }
 
