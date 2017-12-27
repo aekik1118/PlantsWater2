@@ -94,7 +94,7 @@ public class PlantsDB {
 
         public List getAllPlants() {
             StringBuffer sb = new StringBuffer();
-            sb.append(" SELECT NAME, WATER_PERIOD, PHOTO, RECENT FROM Plants ");
+            sb.append(" SELECT NAME, WATER_PERIOD, PHOTO, RECENT, _id FROM Plants ");
 
             db = dbHelper.getReadableDatabase();
 

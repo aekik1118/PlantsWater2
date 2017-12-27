@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -53,16 +54,21 @@ public class PlantsListAdapter extends BaseAdapter {
             TextView tvRecent = new TextView(context);
             tvRecent.setPadding(20, 0, 20, 0);
 
+            Button btWater = new Button(context);
+            btWater.setPadding(20, 0, 20, 0);
+
             ((LinearLayout) convertView).addView(tvName);
             ((LinearLayout) convertView).addView(tvPeriod);
             ((LinearLayout) convertView).addView(imPhoto);
             ((LinearLayout) convertView).addView(tvRecent);
+            ((LinearLayout) convertView).addView(btWater);
 
             holder = new Holder();
             holder.tvName = tvName;
             holder.tvPeriod = tvPeriod;
             holder.imPhoto = imPhoto;
             holder.tvRecent = tvRecent;
+            holder.btWater = btWater;
 
             convertView.setTag(holder);
         } else {
@@ -74,6 +80,7 @@ public class PlantsListAdapter extends BaseAdapter {
         holder.tvPeriod.setText(plant.getWater_period() + "");
         holder.imPhoto.setImageBitmap(plant.getPhoto());
         holder.tvRecent.setText(plant.getRecent() + "");
+        holder.btWater.setText("물주기");
 
         return convertView;
     }
@@ -85,6 +92,7 @@ class Holder {
     public TextView tvPeriod;
     public ImageView imPhoto;
     public TextView tvRecent;
+    public Button btWater;
 }
 
 
