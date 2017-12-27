@@ -84,7 +84,7 @@ public class PlantsListAdapter extends BaseAdapter {
         holder.tvPeriod.setText(plant.getWater_period() + "");
         holder.imPhoto.setImageBitmap(plant.getPhoto());
         holder.tvRecent.setText(plant.getRecent() + "");
-        holder.btWater.setText("물주기");
+        holder.btWater.setText(plant.getId() + "");
 
         return convertView;
     }

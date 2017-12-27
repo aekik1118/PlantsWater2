@@ -112,6 +112,7 @@ public class PlantsDB {
                 plant.setPhoto(getBitmap(url));
 
                 plant.setRecent(cursor.getString(3));
+                plant.setId(cursor.getInt(4));
 
                 plants.add(plant);
             }
