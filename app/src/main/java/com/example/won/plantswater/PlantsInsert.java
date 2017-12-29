@@ -52,7 +52,7 @@ public class PlantsInsert extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plants_insert);
 
-        checkPermissions();
+        //checkPermissions();
 
 
         iv_UserPhoto = (ImageView) this.findViewById(R.id.imageView2);
@@ -91,6 +91,7 @@ public class PlantsInsert extends Activity implements View.OnClickListener {
                 MainActivity.mDatabase.insertData(et_name.getText().toString(),null,pr);
                 Toast.makeText(PlantsInsert.this, "식물 추가 완료", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(PlantsInsert.this,MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
         });

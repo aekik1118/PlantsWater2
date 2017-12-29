@@ -1,6 +1,8 @@
 package com.example.won.plantswater;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -39,7 +41,7 @@ public class PlantsListAdapter extends BaseAdapter {
 
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
         Holder holder = null;
 
         if (convertView == null) {
@@ -59,13 +61,17 @@ public class PlantsListAdapter extends BaseAdapter {
             tvRecent.setPadding(20, 0, 20, 0);
 
             Button btWater = new Button(context);
-            btWater.setPadding(20, 0, 20, 0);
+            btWater.setPadding(10, 0, 10, 0);
+
+            Button btDelete = new Button(context);
+            btWater.setPadding(10, 0, 10, 0);
 
             ((LinearLayout) convertView).addView(tvName);
             ((LinearLayout) convertView).addView(tvPeriod);
             ((LinearLayout) convertView).addView(imPhoto);
             ((LinearLayout) convertView).addView(tvRecent);
             ((LinearLayout) convertView).addView(btWater);
+            ((LinearLayout) convertView).addView(btDelete);
 
             holder = new Holder();
             holder.tvName = tvName;
@@ -73,18 +79,33 @@ public class PlantsListAdapter extends BaseAdapter {
             holder.imPhoto = imPhoto;
             holder.tvRecent = tvRecent;
             holder.btWater = btWater;
+            holder.btDelete = btDelete;
 
             convertView.setTag(holder);
         } else {
             holder = (Holder) convertView.getTag();
         }
 
-        Plants plant = (Plants) getItem(position);
+        final Plants plant = (Plants) getItem(position);
         holder.tvName.setText(plant.getName() + "");
         holder.tvPeriod.setText(plant.getWater_period() + "");
         holder.imPhoto.setImageBitmap(plant.getPhoto());
         holder.tvRecent.setText(plant.getRecent() + "");
         holder.btWater.setText(plant.getId() + "");
+
+        holder.btWater.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String sql = "UPDATE " + PlantsDB.TABLE_NAME + " SET RECENT = CURRENT_TIMESTAMP WHERE _id =" + plant.getId();
+                MainActivity.mDatabase.rawQuery(sql);
+                Intent intent = new Intent(view.getContext(),MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                view.getContext().startActivity(intent);
+                ((Activity)view.getContext()).overridePendingTransition(0,0);
+            }
+        });
+
+        holder.btDelete.setText("삭제");
 
         return convertView;
     }
@@ -97,6 +118,7 @@ class Holder {
     public ImageView imPhoto;
     public TextView tvRecent;
     public Button btWater;
+    public Button btDelete;
 }
 
 
