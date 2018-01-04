@@ -21,10 +21,6 @@ public class PlantsListAdapter extends BaseAdapter {
     private List plants;
     private Context context;
 
-
-
-    
-
     public  PlantsListAdapter(List plants, Context context){
         this.plants = plants;
         this.context = context;
@@ -49,25 +45,28 @@ public class PlantsListAdapter extends BaseAdapter {
             ((LinearLayout) convertView).setOrientation(LinearLayout.HORIZONTAL);
 
             TextView tvName = new TextView(context);
-            tvName.setPadding(10, 0, 20, 0);
+            tvName.setPadding(5, 0, 7, 0);
+
 
             TextView tvPeriod = new TextView(context);
-            tvPeriod.setPadding(20, 0, 20, 0);
+            tvPeriod.setPadding(7, 0, 7, 0);
 
             ImageView imPhoto = new ImageView(context);
-            imPhoto.setPadding(20, 0, 20, 0);
+            imPhoto.setPadding(7, 0, 7, 0);
 
             TextView tvRecent = new TextView(context);
-            tvRecent.setPadding(20, 0, 20, 0);
+            tvRecent.setPadding(7, 0, 7, 0);
+
 
             Button btWater = new Button(context);
-            btWater.setPadding(10, 0, 10, 0);
+            btWater.setPadding(5, 0, 5, 0);
+
 
             Button btDelete = new Button(context);
-            btWater.setPadding(10, 0, 10, 0);
+            btWater.setPadding(5, 0, 5, 0);
+
 
             ((LinearLayout) convertView).addView(tvName);
-            ((LinearLayout) convertView).addView(tvPeriod);
             ((LinearLayout) convertView).addView(imPhoto);
             ((LinearLayout) convertView).addView(tvRecent);
             ((LinearLayout) convertView).addView(btWater);
@@ -75,7 +74,6 @@ public class PlantsListAdapter extends BaseAdapter {
 
             holder = new Holder();
             holder.tvName = tvName;
-            holder.tvPeriod = tvPeriod;
             holder.imPhoto = imPhoto;
             holder.tvRecent = tvRecent;
             holder.btWater = btWater;
@@ -88,10 +86,9 @@ public class PlantsListAdapter extends BaseAdapter {
 
         final Plants plant = (Plants) getItem(position);
         holder.tvName.setText(plant.getName() + "");
-        holder.tvPeriod.setText(plant.getWater_period() + "");
         holder.imPhoto.setImageBitmap(plant.getPhoto());
         holder.tvRecent.setText(plant.getRecent() + "");
-        holder.btWater.setText(plant.getId() + "");
+        holder.btWater.setText("물주기");
 
         holder.btWater.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,19 +103,36 @@ public class PlantsListAdapter extends BaseAdapter {
         });
 
         holder.btDelete.setText("삭제");
+        holder.btDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String sql = "DELETE FROM " + PlantsDB.TABLE_NAME + " WHERE _id =" + plant.getId();
+                MainActivity.mDatabase.rawQuery(sql);
+                Intent intent = new Intent(view.getContext(),MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                view.getContext().startActivity(intent);
+                ((Activity)view.getContext()).overridePendingTransition(0,0);
+            }
+        });
 
         return convertView;
     }
 
 }
+//
+//class Holder {
+//    public TextView tvName;
+//    public ImageView imPhoto;
+//    public TextView tvRecent;
+//    public Button btWater;
+//    public Button btDelete;
+//}
 
 class Holder {
     public TextView tvName;
-    public TextView tvPeriod;
     public ImageView imPhoto;
     public TextView tvRecent;
     public Button btWater;
     public Button btDelete;
 }
-
 
