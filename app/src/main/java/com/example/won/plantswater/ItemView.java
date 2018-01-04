@@ -57,6 +57,8 @@ public class ItemView extends LinearLayout{
 
     public void setBtWater(final int id)
     {
+        btWater.setText("물주기");
+
         btWater.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,6 +75,8 @@ public class ItemView extends LinearLayout{
 
     public void setBtDelete(final int id)
     {
+        btDelete.setText("삭제");
+
         btDelete.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
