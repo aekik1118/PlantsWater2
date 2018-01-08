@@ -16,14 +16,16 @@ public class MainActivity extends AppCompatActivity {
     private ListView listView;
 
     public static PlantsDB mDatabase = null;
+    public static myAlarmManager myAM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        //ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,LIST_MENU);
 
         listView = (ListView) findViewById(R.id.listView1);
+        //listView.setAdapter(adapter);
 
 
         Log.d(TAG, "Oncreate()");
@@ -51,8 +53,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
 
     protected void onStart() {
 

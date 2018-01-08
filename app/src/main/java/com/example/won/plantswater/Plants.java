@@ -25,4 +25,5 @@ public class Plants {
     public void setPhoto(Bitmap photo){this.photo = photo;}
     public void setRecent(String recent){this.recent = recent;}
     public void setId(int id){this._id = id;}
+
 }

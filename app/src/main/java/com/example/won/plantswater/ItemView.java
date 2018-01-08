@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import static com.example.won.plantswater.MainActivity.myAM;
+
 /**
  * Created by aekik on 2017-12-29.
  */
@@ -64,6 +66,10 @@ public class ItemView extends LinearLayout{
             public void onClick(View view) {
                 String sql = "UPDATE " + PlantsDB.TABLE_NAME + " SET RECENT = CURRENT_TIMESTAMP WHERE _id =" + id;
                 MainActivity.mDatabase.rawQuery(sql);
+
+                myAM = myAlarmManager.getInstance(view.getContext());
+                myAM.setAlarm("");
+
                 Intent intent = new Intent(view.getContext(),MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 view.getContext().startActivity(intent);
