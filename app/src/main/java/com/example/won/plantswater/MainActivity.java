@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -48,6 +49,13 @@ public class MainActivity extends AppCompatActivity {
         {
             Intent intent = new Intent(MainActivity.this,PlantsInsert.class);
             startActivity(intent);
+            return true;
+        }
+
+        if(id == R.id.action_delete)
+        {
+            Toast.makeText(this, "삭제", Toast.LENGTH_SHORT).show();
+
             return true;
         }
 
