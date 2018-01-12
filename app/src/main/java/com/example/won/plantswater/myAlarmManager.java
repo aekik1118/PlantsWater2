@@ -30,7 +30,7 @@ public class myAlarmManager {
         return mAM;
     }
 
-    public void setAlarm(int hourOfDay, int minute, int id)
+    public void setAlarm(int hourOfDay, int minute, int id, int time)
     {
         AM = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);
         Intent intent = new Intent(context,myAlarmReceiver.class);
@@ -41,16 +41,19 @@ public class myAlarmManager {
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
-            AM.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,getTriggerAtMillis(hourOfDay, minute),sender);
+            //AM.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,getTriggerAtMillis(hourOfDay, minute),sender);
+            AM.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+time*1000*60,sender);
 
         }
         else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
         {
-            AM.setExact(AlarmManager.RTC_WAKEUP,getTriggerAtMillis(hourOfDay, minute),sender);
+            //AM.setExact(AlarmManager.RTC_WAKEUP,getTriggerAtMillis(hourOfDay, minute),sender);
+            AM.setExact(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+time*1000*60,sender);
         }
         else
         {
-            AM.set(AlarmManager.RTC_WAKEUP,getTriggerAtMillis(hourOfDay, minute),sender);
+            //AM.set(AlarmManager.RTC_WAKEUP,getTriggerAtMillis(hourOfDay, minute),sender);
+            AM.set(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+time*1000*60,sender);
         }
 
 

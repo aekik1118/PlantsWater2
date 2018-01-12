@@ -68,7 +68,7 @@ public class ItemView extends LinearLayout{
                 MainActivity.mDatabase.rawQuery(sql);
 
                 myAM = myAlarmManager.getInstance(view.getContext());
-                myAM.setAlarm(22,20,id);
+                myAM.setAlarm(14,26,id,1);
 
                 Intent intent = new Intent(view.getContext(),MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
