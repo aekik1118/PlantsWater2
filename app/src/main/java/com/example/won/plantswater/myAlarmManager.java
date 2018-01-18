@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.GregorianCalendar;
 
@@ -35,25 +36,40 @@ public class myAlarmManager {
         AM = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);
         Intent intent = new Intent(context,myAlarmReceiver.class);
 
-        PendingIntent sender = PendingIntent.getBroadcast(context,id,intent,0);
+        if(id == 0)
+        {
+            Toast.makeText(context,"에러",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
+        //intent.setAction("id");
+        //intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+        intent.putExtra("pid",id);
+
+        Log.d(TAG, "set"+intent.getIntExtra("pid",0));
+        Log.d(TAG, "set"+id);
+
+        PendingIntent sender = PendingIntent.getBroadcast(context,id,intent,PendingIntent.FLAG_ONE_SHOT);
 
 
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
             //AM.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,getTriggerAtMillis(hourOfDay, minute),sender);
-            AM.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+time*1000*60,sender);
+            AM.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+time*1000*10,sender);
 
         }
         else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
         {
             //AM.setExact(AlarmManager.RTC_WAKEUP,getTriggerAtMillis(hourOfDay, minute),sender);
-            AM.setExact(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+time*1000*60,sender);
+            AM.setExact(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+time*1000*10,sender);
         }
         else
         {
             //AM.set(AlarmManager.RTC_WAKEUP,getTriggerAtMillis(hourOfDay, minute),sender);
-            AM.set(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+time*1000*60,sender);
+            AM.set(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+time*1000*10,sender);
         }
 
 

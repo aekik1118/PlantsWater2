@@ -23,7 +23,17 @@ public class MyAlarmService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        Toast.makeText(this,"알람",Toast.LENGTH_SHORT).show();
+        int plantId = intent.getIntExtra("pid",0);
+
+        if(plantId == 0)
+            Toast.makeText(this,"에러"+intent.getIntExtra("pid",0) ,Toast.LENGTH_SHORT).show();
+        else
+        {
+            Toast.makeText(this,"알람"+intent.getIntExtra("pid",0) ,Toast.LENGTH_SHORT).show();
+
+
+        }
+
 
         Log.d(TAG, "onStartCommand");
 
