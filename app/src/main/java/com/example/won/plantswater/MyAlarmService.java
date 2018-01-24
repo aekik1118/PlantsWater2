@@ -33,6 +33,22 @@ public class MyAlarmService extends Service {
             Toast.makeText(this,"에러"+intent.getIntExtra("pid",0) ,Toast.LENGTH_SHORT).show();
         else
         {
+            ///////////////////DB에서 정보 가져오는 부분
+
+
+            //String sql = "SELECT * FROM " + PlantsDB.TABLE_NAME + " where _id =" + plantId;
+            //Cursor result = MainActivity.mDatabase.rawQuery(sql);
+
+
+
+
+
+
+
+
+
+            //////////////////////
+            //////////////////////노티피케이션 부분
             NotificationManager notificationManager = ( NotificationManager )getSystemService(this.NOTIFICATION_SERVICE);
             Intent intent1 = new Intent(MyAlarmService.this,MainActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(MyAlarmService.this,0,intent1,PendingIntent.FLAG_UPDATE_CURRENT);
@@ -50,14 +66,19 @@ public class MyAlarmService extends Service {
                         .setVisibility(Notification.VISIBILITY_PUBLIC);
             }
 
+            Notification noti;
+
             if(Build.VERSION.SDK_INT < 16)
             {
-                notificationManager.notify(0,builder.getNotification());
+                noti = builder.getNotification();
             }
             else
             {
-                notificationManager.notify(0,builder.build());
+                noti = builder.build();
             }
+
+            noti.flags |= Notification.FLAG_AUTO_CANCEL;
+            notificationManager.notify(0,noti);
 
             //Toast.makeText(this,"알람"+intent.getIntExtra("pid",0) ,Toast.LENGTH_SHORT).show();
         }
