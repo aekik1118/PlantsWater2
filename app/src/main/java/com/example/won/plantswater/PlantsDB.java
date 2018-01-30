@@ -91,6 +91,19 @@ public class PlantsDB {
         }
     }
 
+        public String getName(int plantId)
+        {
+            String name;
+            String sql = "SELECT * FROM " + PlantsDB.TABLE_NAME + " WHERE _id = " + plantId;
+
+            Log.d(TAG, sql);
+            db = dbHelper.getReadableDatabase();
+            Cursor result =  db.rawQuery(sql,null);
+            result.moveToFirst();
+            name = result.getString(2);
+
+            return name;
+        }
 
         public List getAllPlants() {
             StringBuffer sb = new StringBuffer();
@@ -145,7 +158,6 @@ public class PlantsDB {
             }
         }
 
-
     public boolean open() {
         println("opening database [" + BasicInfo.DATABASE_NAME + "].");
 
@@ -154,9 +166,6 @@ public class PlantsDB {
         dbHelper.onCreate(db);
         return true;
     }
-
-
-
 
     public Cursor rawQuery(String SQL) {
         println("\nexecuteQuery called.\n");

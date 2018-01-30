@@ -34,27 +34,19 @@ public class MyAlarmService extends Service {
         else
         {
             ///////////////////DB에서 정보 가져오는 부분
+            //진행중
 
+            String name = MainActivity.mDatabase.getName(plantId);
 
-            //String sql = "SELECT * FROM " + PlantsDB.TABLE_NAME + " where _id =" + plantId;
-            //Cursor result = MainActivity.mDatabase.rawQuery(sql);
+            //노티 눌렀을때 메인액티비티 중복되는거 해결해야됨
 
-
-
-
-
-
-
-
-
-            //////////////////////
             //////////////////////노티피케이션 부분
             NotificationManager notificationManager = ( NotificationManager )getSystemService(this.NOTIFICATION_SERVICE);
             Intent intent1 = new Intent(MyAlarmService.this,MainActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(MyAlarmService.this,0,intent1,PendingIntent.FLAG_UPDATE_CURRENT);
             Notification.Builder builder = new Notification.Builder(getApplicationContext());
             builder.setSmallIcon(R.drawable.cactus)
-                    .setContentTitle("Content Title")
+                    .setContentTitle(name)
                     .setContentText("Content Text")
                     .setContentIntent(pendingIntent)
                     .setTicker("알림!!");
