@@ -103,7 +103,7 @@ public class PlantsInsert extends AppCompatActivity implements View.OnClickListe
                 else
                     pr = 168;
 
-                MainActivity.mDatabase.insertData(et_name.getText().toString(), null, pr);
+                MainActivity.mDatabase.insertData(et_name.getText().toString(), albumURI.toString(), pr);
                 Toast.makeText(PlantsInsert.this, "식물 추가 완료", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(PlantsInsert.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -180,7 +180,7 @@ public class PlantsInsert extends AppCompatActivity implements View.OnClickListe
         Uri contentUri = Uri.fromFile(f);
         mediaScanIntent.setData(contentUri);
         sendBroadcast(mediaScanIntent);
-        Toast.makeText(this, "사진이 앨범에 저장되었습니다.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "사진이 앨범에 저장되었습니다." + contentUri, Toast.LENGTH_SHORT).show();
     }
 
     // 카메라 전용 크랍
@@ -230,6 +230,7 @@ public class PlantsInsert extends AppCompatActivity implements View.OnClickListe
                             albumFile = createImageFile();
                             photoURI = data.getData();
                             albumURI = Uri.fromFile(albumFile);
+
                             cropImage();
                         }catch (Exception e){
                             Log.e("TAKE_ALBUM_SINGLE ERROR", e.toString());
@@ -243,6 +244,7 @@ public class PlantsInsert extends AppCompatActivity implements View.OnClickListe
 
                     galleryAddPic();
                     iv_view.setImageURI(albumURI);
+                    Log.d("테스트"," "+ albumURI);
                 }
                 break;
         }

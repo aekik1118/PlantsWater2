@@ -57,7 +57,7 @@ public class ItemView extends LinearLayout{
         tvRecent.setText(Recent);
     }
 
-    public void setBtWater(final int id)
+    public void setBtWater(final int id, final int water_period)
     {
         btWater.setText("물주기");
 
@@ -68,7 +68,7 @@ public class ItemView extends LinearLayout{
                 MainActivity.mDatabase.rawQuery(sql);
 
                 myAM = myAlarmManager.getInstance(view.getContext());
-                myAM.setAlarm(14,26,id,1);
+                myAM.setAlarm(14,26,id,water_period);
 
                 Intent intent = new Intent(view.getContext(),MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

@@ -43,11 +43,11 @@ public class MyAlarmService extends Service {
             //////////////////////노티피케이션 부분
             NotificationManager notificationManager = ( NotificationManager )getSystemService(this.NOTIFICATION_SERVICE);
             Intent intent1 = new Intent(MyAlarmService.this,MainActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(MyAlarmService.this,0,intent1,PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent pendingIntent = PendingIntent.getActivity(MyAlarmService.this,plantId,intent1,0);
             Notification.Builder builder = new Notification.Builder(getApplicationContext());
             builder.setSmallIcon(R.drawable.cactus)
                     .setContentTitle(name)
-                    .setContentText("Content Text")
+                    .setContentText("목이말라요 물을 주세요!!")
                     .setContentIntent(pendingIntent)
                     .setTicker("알림!!");
 
@@ -70,7 +70,7 @@ public class MyAlarmService extends Service {
             }
 
             noti.flags |= Notification.FLAG_AUTO_CANCEL;
-            notificationManager.notify(0,noti);
+            notificationManager.notify(plantId,noti);
 
             //Toast.makeText(this,"알람"+intent.getIntExtra("pid",0) ,Toast.LENGTH_SHORT).show();
         }

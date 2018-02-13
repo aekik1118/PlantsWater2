@@ -22,22 +22,13 @@ import java.util.List;
 public class PlantsDB {
 
     public static final String TAG = "PlantsDB";
-
     public static String TABLE_NAME = "Plants";
-
     private static PlantsDB database;
-
     private SQLiteDatabase db;
-
     private Context context;
-
     public static int DATABASE_VERSION = 1;
-
     private DatabaseHelper dbHelper;
-
     private PlantsDB(Context context) {this.context = context;}
-
-
 
     public static PlantsDB getInstance(Context context) {
         if (database == null) {
@@ -52,7 +43,6 @@ public class PlantsDB {
         public DatabaseHelper(Context context) {
             super(context, BasicInfo.DATABASE_NAME, null, DATABASE_VERSION);
         }
-
 
         public void onCreate(SQLiteDatabase db) {
 
@@ -73,21 +63,16 @@ public class PlantsDB {
             } catch (Exception ex) {
                 Log.e(TAG, "Exception in CREATE_SQL", ex);
             }
-
         }
 
 
         public void onOpen(SQLiteDatabase db) {
             println("opened database [" + BasicInfo.DATABASE_NAME + "].");
-
         }
-
 
         @Override
         public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-
             Log.d(TAG, "UUUUUU");
-
         }
     }
 
@@ -116,13 +101,15 @@ public class PlantsDB {
             List plants = new ArrayList();
             Plants plant = null;
 
+
             while(cursor.moveToNext()){
                 plant = new Plants();
                 plant.setName(cursor.getString(0));
                 plant.setWater_period(cursor.getInt(1));
 
                 String url = cursor.getString(2);
-                plant.setPhoto(getBitmap(url));
+                plant.setPhoto(url);
+                Log.d(TAG, " uri 테스트 "+url);
 
                 plant.setRecent(cursor.getString(3));
                 plant.setId(cursor.getInt(4));

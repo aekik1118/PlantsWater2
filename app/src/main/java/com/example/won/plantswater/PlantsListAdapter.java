@@ -1,6 +1,7 @@
 package com.example.won.plantswater;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import java.util.List;
 public class PlantsListAdapter extends BaseAdapter {
     private List plants;
     private Context context;
+    public static final String TAG = "PlantsListAdapter";
 
     public  PlantsListAdapter(List plants, Context context){
         this.plants = plants;
@@ -43,13 +45,11 @@ public class PlantsListAdapter extends BaseAdapter {
             LayoutInflater inflater = LayoutInflater.from(context);
             convertView = inflater.inflate(R.layout.item_view,null);
             itemView = new ItemView(context);
-
             itemView.imPhoto = (ImageView)convertView.findViewById(R.id.imageView);
             itemView.tvName = (TextView)convertView.findViewById(R.id.textView2);
             itemView.tvRecent = (TextView)convertView.findViewById(R.id.textView3);
             itemView.btWater = (Button)convertView.findViewById(R.id.button2);
             itemView.btDelete = (Button)convertView.findViewById(R.id.button3);
-
             convertView.setTag(itemView);
         }
         else
@@ -60,9 +60,12 @@ public class PlantsListAdapter extends BaseAdapter {
         final Plants plant = (Plants) getItem(position);
 
         itemView.setName(plant.getName() + "");
+        itemView.imPhoto.setImageURI(plant.getPhoto());
+        Log.d(TAG, " uri 테스트 "+plant.getName() +plant.getPhoto());
+
         //itemView.setImPhoto(plant.getPhoto());
         itemView.setTvRecent(plant.getRecent() + "");
-        itemView.setBtWater(plant.getId());
+        itemView.setBtWater(plant.getId(),plant.getWater_period());
         itemView.setBtDelete(plant.getId());
 
         return convertView;
