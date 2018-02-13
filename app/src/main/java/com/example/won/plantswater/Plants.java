@@ -26,8 +26,8 @@ public class Plants {
     public void setWater_period(int period) { this.water_period = period;}
     public void setPhoto(String photo){ //null 들어감 왜 null 인지 확인필요
 
-        Log.d(TAG, " uri 테스트22 "+this.photo);
-        if(this.photo != null)
+        Log.d(TAG, " uri 테스트11 "+photo);
+        if(photo != null)
         {
             this.photo = Uri.parse(photo);
             Log.d(TAG, " uri 테스트22 "+this.photo);

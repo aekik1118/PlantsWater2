@@ -109,7 +109,7 @@ public class PlantsDB {
 
                 String url = cursor.getString(2);
                 plant.setPhoto(url);
-                Log.d(TAG, " uri 테스트 "+url);
+                Log.d(TAG, " uri 테스트 33 "+url);
 
                 plant.setRecent(cursor.getString(3));
                 plant.setId(cursor.getInt(4));

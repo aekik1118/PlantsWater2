@@ -3,7 +3,7 @@ package com.example.won.plantswater;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -47,9 +47,9 @@ public class ItemView extends LinearLayout{
         tvName.setText(name);
     }
 
-    public void setImPhoto(Bitmap photo)
+    public void setImPhoto(Uri photo)
     {
-        imPhoto.setImageBitmap(photo);
+        imPhoto.setImageURI(photo);
     }
 
     public void setTvRecent(String Recent)

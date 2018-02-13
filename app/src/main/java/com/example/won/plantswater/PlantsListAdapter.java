@@ -60,10 +60,10 @@ public class PlantsListAdapter extends BaseAdapter {
         final Plants plant = (Plants) getItem(position);
 
         itemView.setName(plant.getName() + "");
-        itemView.imPhoto.setImageURI(plant.getPhoto());
+        //itemView.imPhoto.setImageURI(plant.getPhoto());
         Log.d(TAG, " uri 테스트 "+plant.getName() +plant.getPhoto());
 
-        //itemView.setImPhoto(plant.getPhoto());
+        itemView.setImPhoto(plant.getPhoto());
         itemView.setTvRecent(plant.getRecent() + "");
         itemView.setBtWater(plant.getId(),plant.getWater_period());
         itemView.setBtDelete(plant.getId());
