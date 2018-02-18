@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.shuvic.alumni.cameraalbum"
+            android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

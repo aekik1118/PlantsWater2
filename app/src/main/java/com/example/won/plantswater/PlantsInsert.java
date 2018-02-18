@@ -53,7 +53,7 @@ public class PlantsInsert extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plants_insert);
 
-        btn_capture = (Button) findViewById(R.id.button);
+        btn_capture = (Button) this.findViewById(R.id.button);
         btn_album = (Button) findViewById(R.id.button4);
         iv_view = (ImageView) findViewById(R.id.imageView2);
 
@@ -73,7 +73,7 @@ public class PlantsInsert extends AppCompatActivity implements View.OnClickListe
 
         checkPermission();
 
-        Button btn_agreeJoin = (Button) this.findViewById(R.id.button);
+        //Button btn_agreeJoin = (Button) this.findViewById(R.id.button);
         Button btn_add = (Button) this.findViewById(R.id.button1);
         final EditText et_name = (EditText) this.findViewById(R.id.editText);
 
@@ -103,19 +103,26 @@ public class PlantsInsert extends AppCompatActivity implements View.OnClickListe
                 else
                     pr = 168;
 
-                MainActivity.mDatabase.insertData(et_name.getText().toString(), albumURI.toString(), pr);
+                if(albumURI == null)
+                    MainActivity.mDatabase.insertData(et_name.getText().toString(), null, pr);
+                else
+                    MainActivity.mDatabase.insertData(et_name.getText().toString(), albumURI.toString(), pr);
+
                 Toast.makeText(PlantsInsert.this, "식물 추가 완료", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(PlantsInsert.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
         });
-        btn_agreeJoin.setOnClickListener(this);
+        //btn_agreeJoin.setOnClickListener(this);
 
     }
 
     private void captureCamera(){
         String state = Environment.getExternalStorageState();
+
+        Log.d("captureCamera", "Call");
+
         // 외장 메모리 검사
         if (Environment.MEDIA_MOUNTED.equals(state)) {
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -130,13 +137,22 @@ public class PlantsInsert extends AppCompatActivity implements View.OnClickListe
                 if (photoFile != null) {
                     // getUriForFile의 두 번째 인자는 Manifest provier의 authorites와 일치해야 함
 
-                    Uri providerURI = FileProvider.getUriForFile(this, getPackageName(), photoFile);
+                    Uri providerURI = FileProvider.getUriForFile(this, getApplication().getPackageName()+".provider", photoFile);
                     imageUri = providerURI;
 
                     // 인텐트에 전달할 때는 FileProvier의 Return값인 content://로만!!, providerURI의 값에 카메라 데이터를 넣어 보냄
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, providerURI);
 
-                    startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+                    int permissionCheck = ContextCompat.checkSelfPermission(PlantsInsert.this,Manifest.permission.CAMERA);
+
+                    if (permissionCheck == PackageManager.PERMISSION_DENIED) {
+                        ActivityCompat.requestPermissions(PlantsInsert.this,new String[]{Manifest.permission.CAMERA},0);
+                    }
+                    else
+                    {
+                        startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+                    }
+
                 }
             }
         } else {
@@ -213,6 +229,8 @@ public class PlantsInsert extends AppCompatActivity implements View.OnClickListe
                         galleryAddPic();
 
                         iv_view.setImageURI(imageUri);
+                        albumURI = imageUri;
+
                     } catch (Exception e) {
                         Log.e("REQUEST_TAKE_PHOTO", e.toString());
                     }
