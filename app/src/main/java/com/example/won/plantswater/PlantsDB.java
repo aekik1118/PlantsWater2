@@ -50,7 +50,7 @@ public class PlantsDB {
             println("creating table [" + TABLE_NAME + "].");
 
             // create table
-            String CREATE_SQL = "CREATE TABLE " + TABLE_NAME + "("
+            String CREATE_SQL = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "("
                     + "  _id INTEGER  NOT NULL PRIMARY KEY AUTOINCREMENT, "
                     + "  INPUT_DATE TIMESTAMP DEFAULT CURRENT_TIMESTAMP, "
                     + "  NAME TEXT DEFAULT '', "
