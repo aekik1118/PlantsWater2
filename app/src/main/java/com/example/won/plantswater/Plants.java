@@ -15,7 +15,6 @@ public class Plants {
     private int _id;
     public static final String TAG = "Plants";
 
-
     public String getName(){return name;}
     public int getWater_period(){return water_period;}
     public Uri getPhoto(){return photo;}

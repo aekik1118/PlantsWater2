@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -23,9 +24,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
-import java.text.*;
+
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class PlantsInsert extends AppCompatActivity implements View.OnClickListener{
@@ -137,8 +139,19 @@ public class PlantsInsert extends AppCompatActivity implements View.OnClickListe
                 if (photoFile != null) {
                     // getUriForFile의 두 번째 인자는 Manifest provier의 authorites와 일치해야 함
 
-                    Uri providerURI = FileProvider.getUriForFile(this, getApplication().getPackageName()+".provider", photoFile);
+                    Uri providerURI;
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//sdk 24 이상, 누가(7.0)
+                        providerURI = FileProvider.getUriForFile(this, getApplication().getPackageName()+".provider", photoFile);
+                    } else {//sdk 23 이하, 7.0 미만
+                        providerURI = Uri.fromFile(photoFile);
+                    }
+
+                    //Uri providerURI = FileProvider.getUriForFile(this, getApplication().getPackageName()+".provider", photoFile);
                     imageUri = providerURI;
+                    photoURI = providerURI;
+
+                    Log.d("captureCamera", " " + providerURI);
 
                     // 인텐트에 전달할 때는 FileProvier의 Return값인 content://로만!!, providerURI의 값에 카메라 데이터를 넣어 보냄
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, providerURI);
@@ -216,6 +229,9 @@ public class PlantsInsert extends AppCompatActivity implements View.OnClickListe
         cropIntent.putExtra("aspectY", 1); // crop 박스의 y축 비율
         cropIntent.putExtra("scale", true);
         cropIntent.putExtra("output", albumURI); // 크랍된 이미지를 해당 경로에 저장
+
+        Log.d("crop11"," "+ albumURI);
+
         startActivityForResult(cropIntent, REQUEST_IMAGE_CROP);
     }
 
@@ -226,10 +242,21 @@ public class PlantsInsert extends AppCompatActivity implements View.OnClickListe
                 if (resultCode == Activity.RESULT_OK) {
                     try {
                         Log.i("REQUEST_TAKE_PHOTO", "OK");
-                        galleryAddPic();
 
-                        iv_view.setImageURI(imageUri);
-                        albumURI = imageUri;
+                        File albumFile = null;
+                        albumFile = createImageFile();
+
+                        albumURI = Uri.fromFile(albumFile);
+
+                        cropImage();
+
+
+                        //photoURI = data.getData();
+
+                        //galleryAddPic();
+
+                        //iv_view.setImageURI(imageUri);
+
 
                     } catch (Exception e) {
                         Log.e("REQUEST_TAKE_PHOTO", e.toString());
@@ -262,7 +289,12 @@ public class PlantsInsert extends AppCompatActivity implements View.OnClickListe
 
                     galleryAddPic();
                     iv_view.setImageURI(albumURI);
-                    Log.d("테스트"," "+ albumURI);
+                    Log.d("test"," "+ albumURI);
+                }
+                else
+                {
+
+                    Log.d("why"," "+ resultCode);
                 }
                 break;
         }
