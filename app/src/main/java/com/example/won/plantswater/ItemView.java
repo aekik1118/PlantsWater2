@@ -21,8 +21,8 @@ public class ItemView extends LinearLayout{
     ImageView imPhoto;
     TextView tvName;
     TextView tvRecent;
-    Button bt;
-
+    Button btWater;
+    Button btDelete;
 
     ItemView(Context context)
     {
@@ -38,7 +38,8 @@ public class ItemView extends LinearLayout{
         imPhoto = (ImageView)findViewById(R.id.imageView);
         tvName = (TextView)findViewById(R.id.textView2);
         tvRecent = (TextView)findViewById(R.id.textView3);
-        bt = (Button)findViewById(R.id.button2);
+        btWater = (Button)findViewById(R.id.button2);
+        btDelete = (Button)findViewById(R.id.button3);
     }
 
     public void setName(String name)
@@ -56,52 +57,43 @@ public class ItemView extends LinearLayout{
         tvRecent.setText(Recent);
     }
 
-    public void setBt(final int id, final int water_period, int mid)
+    public void setBtWater(final int id, final int water_period)
     {
-        if(mid == 1)
-        {
-            bt.setText("물주기");
+        btWater.setText("물주기");
 
+        btWater.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String sql = "UPDATE " + PlantsDB.TABLE_NAME + " SET RECENT = CURRENT_TIMESTAMP WHERE _id =" + id;
+                MainActivity.mDatabase.rawQuery(sql);
 
-                bt.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        String sql = "UPDATE " + PlantsDB.TABLE_NAME + " SET RECENT = CURRENT_TIMESTAMP WHERE _id =" + id;
-                        MainActivity.mDatabase.rawQuery(sql);
-
-                        myAM = myAlarmManager.getInstance(view.getContext());
-                        myAM.setAlarm(14,26,id,water_period);
+                myAM = myAlarmManager.getInstance(view.getContext());
+                myAM.setAlarm(id,water_period,tvName.getText().toString());
 
                 Intent intent = new Intent(view.getContext(),MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 view.getContext().startActivity(intent);
                 ((Activity)view.getContext()).overridePendingTransition(0,0);
 
-                }
-            });
-        }
-
-        if(mid == 2)
-        {
-            bt.setText("삭제");
-
-            bt.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    String sql = "DELETE FROM " + PlantsDB.TABLE_NAME + " WHERE _id =" +id;
-                    MainActivity.mDatabase.rawQuery(sql);
-                    Intent intent = new Intent(view.getContext(),MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    view.getContext().startActivity(intent);
-                    ((Activity)view.getContext()).overridePendingTransition(0,0);
-                }
-            });
-        }
+            }
+        });
     }
 
     public void setBtDelete(final int id)
     {
+        btDelete.setText("삭제");
 
+        btDelete.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String sql = "DELETE FROM " + PlantsDB.TABLE_NAME + " WHERE _id =" +id;
+                MainActivity.mDatabase.rawQuery(sql);
+                Intent intent = new Intent(view.getContext(),MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                view.getContext().startActivity(intent);
+                ((Activity)view.getContext()).overridePendingTransition(0,0);
+            }
+        });
     }
 
 }
