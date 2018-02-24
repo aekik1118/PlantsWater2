@@ -18,6 +18,7 @@ public class myAlarmReceiver extends BroadcastReceiver {
     {
         Intent Serviceintent = new Intent(context,MyAlarmService.class);
         Serviceintent.putExtra("pid",intent.getIntExtra("pid",0));
+        Serviceintent.putExtra("pname",intent.getStringExtra("pname"));
         Log.d(TAG, "onReceive"+intent.getIntExtra("pid",0));
 
         context.startService(Serviceintent);

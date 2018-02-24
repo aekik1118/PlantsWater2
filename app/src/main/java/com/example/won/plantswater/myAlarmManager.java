@@ -8,7 +8,10 @@ import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 /**
  * Created by aekik on 2018-01-06.
@@ -21,7 +24,6 @@ public class myAlarmManager {
     private Context context;
     private static myAlarmManager mAM;
     private AlarmManager AM;
-
     private myAlarmManager(Context context) {this.context = context;}
 
     public static myAlarmManager getInstance(Context context) {
@@ -31,10 +33,14 @@ public class myAlarmManager {
         return mAM;
     }
 
-    public void setAlarm(int hourOfDay, int minute, int id, int time)
+    public void setAlarm(int id, int time, String name)
     {
         AM = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);
         Intent intent = new Intent(context,myAlarmReceiver.class);
+
+        Calendar cal = new GregorianCalendar(Locale.KOREA);
+        cal.setTime(new Date());
+        cal.add(Calendar.HOUR,time);
 
         if(id == 0)
         {
@@ -42,37 +48,26 @@ public class myAlarmManager {
             return;
         }
 
-
-        //intent.setAction("id");
-        //intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
         intent.putExtra("pid",id);
+        intent.putExtra("pname",name);
 
         Log.d(TAG, "set"+intent.getIntExtra("pid",0));
         Log.d(TAG, "set"+id);
 
         PendingIntent sender = PendingIntent.getBroadcast(context,id,intent,PendingIntent.FLAG_ONE_SHOT);
 
-
-
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
-            //AM.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,getTriggerAtMillis(hourOfDay, minute),sender);
-            AM.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+time*1000*60*60,sender);
-
+            AM.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,cal.getTimeInMillis(),sender);
         }
         else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
         {
-            //AM.setExact(AlarmManager.RTC_WAKEUP,getTriggerAtMillis(hourOfDay, minute),sender);
-            AM.setExact(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+time*1000*60*60,sender);
+            AM.setExact(AlarmManager.RTC_WAKEUP,cal.getTimeInMillis(),sender);
         }
         else
         {
-            //AM.set(AlarmManager.RTC_WAKEUP,getTriggerAtMillis(hourOfDay, minute),sender);
-            AM.set(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+time*1000*60*60,sender);
+            AM.set(AlarmManager.RTC_WAKEUP,cal.getTimeInMillis(),sender);
         }
-
-
         Log.d(TAG, "setAM");
     }
 
@@ -86,7 +81,6 @@ public class myAlarmManager {
         else
             return getTimeInMillis(true, hourOfDay, minute);
     }
-
     private long getTimeInMillis(boolean tomorrow, int hourOfDay, int minute) {
         GregorianCalendar calendar = (GregorianCalendar) GregorianCalendar.getInstance();
 

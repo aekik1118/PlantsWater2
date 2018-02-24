@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listView1);
         //listView.setAdapter(adapter);
 
-
         Log.d(TAG, "Oncreate()");
 
     }
@@ -55,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
         if(id == R.id.action_delete)
         {
             Toast.makeText(this, "삭제", Toast.LENGTH_SHORT).show();
-
             return true;
         }
 
@@ -63,17 +61,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void onStart() {
-
         // 데이터베이스 열기
         openDatabase();
         PlantsList(listView);
         super.onStart();
     }
 
-
     public void openDatabase() {
         // open database
-
         mDatabase = PlantsDB.getInstance(this);
         boolean isOpen = mDatabase.open();
         if (isOpen) {
