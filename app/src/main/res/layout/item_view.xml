@@ -32,12 +32,7 @@
         android:layout_width="0dp"
         android:layout_height="100sp"
         android:layout_weight="1"
+        android:layout_gravity="right"
         android:text="Button" />
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="0dp"
-        android:layout_height="100sp"
-        android:layout_weight="1"
-        android:text="Button" />
 </LinearLayout>

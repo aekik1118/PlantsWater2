@@ -19,11 +19,14 @@ import java.util.List;
 public class PlantsListAdapter extends BaseAdapter {
     private List plants;
     private Context context;
+    private int id;
+
     public static final String TAG = "PlantsListAdapter";
 
-    public  PlantsListAdapter(List plants, Context context){
+    public  PlantsListAdapter(List plants, Context context, int id){
         this.plants = plants;
         this.context = context;
+        this.id = id;
     }
 
     @Override
@@ -48,8 +51,7 @@ public class PlantsListAdapter extends BaseAdapter {
             itemView.imPhoto = (ImageView)convertView.findViewById(R.id.imageView);
             itemView.tvName = (TextView)convertView.findViewById(R.id.textView2);
             itemView.tvRecent = (TextView)convertView.findViewById(R.id.textView3);
-            itemView.btWater = (Button)convertView.findViewById(R.id.button2);
-            itemView.btDelete = (Button)convertView.findViewById(R.id.button3);
+            itemView.bt = (Button)convertView.findViewById(R.id.button2);
             convertView.setTag(itemView);
         }
         else
@@ -65,8 +67,7 @@ public class PlantsListAdapter extends BaseAdapter {
 
         itemView.setImPhoto(plant.getPhoto());
         itemView.setTvRecent(plant.getRecent() + "");
-        itemView.setBtWater(plant.getId(),plant.getWater_period());
-        itemView.setBtDelete(plant.getId());
+        itemView.setBt(plant.getId(),plant.getWater_period(), id);
 
         return convertView;
     }

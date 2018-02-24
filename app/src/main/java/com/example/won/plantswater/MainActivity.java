@@ -14,7 +14,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
-    private ListView listView;
+    public static ListView listView;
 
     public static PlantsDB mDatabase = null;
     public static myAlarmManager myAM;
@@ -23,11 +23,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,LIST_MENU);
 
         listView = (ListView) findViewById(R.id.listView1);
-        //listView.setAdapter(adapter);
-
 
         Log.d(TAG, "Oncreate()");
 
@@ -43,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
+        ItemView itemView = null;
+
         int id = item.getItemId();
 
         if(id == R.id.action_insert)
@@ -55,7 +54,14 @@ public class MainActivity extends AppCompatActivity {
         if(id == R.id.action_delete)
         {
             Toast.makeText(this, "삭제", Toast.LENGTH_SHORT).show();
+            PlantsList(listView,2);
+            return true;
+        }
 
+        if(id == R.id.action_watering)
+        {
+            Toast.makeText(this, "물주기", Toast.LENGTH_SHORT).show();
+            PlantsList(listView,1);
             return true;
         }
 
@@ -66,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
         // 데이터베이스 열기
         openDatabase();
-        PlantsList(listView);
+        PlantsList(listView, 1);
         super.onStart();
     }
 
@@ -83,8 +89,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void PlantsList(ListView listview) {
+    public void PlantsList(ListView listview, int id) {
         List plants = mDatabase.getAllPlants();
-        listview.setAdapter(new PlantsListAdapter(plants, MainActivity.this));
+        listview.setAdapter(new PlantsListAdapter(plants, MainActivity.this, id));
     }
+
 }
