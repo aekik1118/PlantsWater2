@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="0dp"
-        android:layout_height="100sp"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         app:srcCompat="@drawable/cactus" />
 
