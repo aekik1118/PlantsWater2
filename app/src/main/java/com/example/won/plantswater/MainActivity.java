@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -51,9 +50,15 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
 
+        if(id == R.id.action_watering)
+        {
+            PlantsList(listView, 1);
+            return true;
+        }
+
         if(id == R.id.action_delete)
         {
-            Toast.makeText(this, "삭제", Toast.LENGTH_SHORT).show();
+            PlantsList(listView, 2);
             return true;
         }
 
@@ -63,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         // 데이터베이스 열기
         openDatabase();
-        PlantsList(listView);
+        PlantsList(listView, 1);
         super.onStart();
     }
 
@@ -78,8 +83,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void PlantsList(ListView listview) {
+    public void PlantsList(ListView listview, int id) {
         List plants = mDatabase.getAllPlants();
-        listview.setAdapter(new PlantsListAdapter(plants, MainActivity.this));
+        listview.setAdapter(new PlantsListAdapter(plants, MainActivity.this, id));
     }
 }
