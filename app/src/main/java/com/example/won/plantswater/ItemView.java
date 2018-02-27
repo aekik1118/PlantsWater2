@@ -2,6 +2,7 @@ package com.example.won.plantswater;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -40,6 +41,17 @@ public class ItemView extends LinearLayout{
         bt = (Button)findViewById(R.id.button2);
     }
 
+    private Activity getActivity() {
+        Context context = getContext();
+        while (context instanceof ContextWrapper) {
+            if (context instanceof Activity) {
+                return (Activity)context;
+            }
+            context = ((ContextWrapper)context).getBaseContext();
+        }
+        return null;
+    }
+
     public void setName(String name)
     {
         tvName.setText(name);
@@ -72,6 +84,7 @@ public class ItemView extends LinearLayout{
 
                     Intent intent = new Intent(view.getContext(),MainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     view.getContext().startActivity(intent);
                     ((Activity)view.getContext()).overridePendingTransition(0,0);
 
