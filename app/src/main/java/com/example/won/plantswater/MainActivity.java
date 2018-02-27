@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static PlantsDB mDatabase = null;
     public static myAlarmManager myAM;
+    public static int state = 0;
     public Menu mMenu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +78,9 @@ public class MainActivity extends AppCompatActivity {
             item.setVisible(false);
             item = mMenu.findItem(R.id.action_delete);
             item.setVisible(true);
-            PlantsList(listView, 1);
+
+            state = 1;
+            PlantsList(listView, state);
             return true;
         }
 
@@ -86,7 +89,9 @@ public class MainActivity extends AppCompatActivity {
             item.setVisible(false);
             item = mMenu.findItem(R.id.action_watering);
             item.setVisible(true);
-            PlantsList(listView, 2);
+
+            state = 2;
+            PlantsList(listView, state);
             return true;
         }
 
@@ -96,7 +101,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         // 데이터베이스 열기
         openDatabase();
-        PlantsList(listView, 1);
+
+        if(state == 0)
+        {
+            PlantsList(listView, 1);
+        }
+
+        else
+        {
+            PlantsList(listView, state);
+        }
         super.onStart();
     }
 
