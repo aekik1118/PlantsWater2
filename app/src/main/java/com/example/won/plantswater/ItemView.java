@@ -24,6 +24,17 @@ public class ItemView extends LinearLayout{
     TextView tvRecent;
     Button bt;
 
+    private Activity getActivity(View view) {
+        Context context = view.getContext();
+        while (context instanceof ContextWrapper) {
+            if (context instanceof Activity) {
+                return (Activity)context;
+            }
+            context = ((ContextWrapper)context).getBaseContext();
+        }
+        return null;
+    }
+
     ItemView(Context context)
     {
         super(context);
@@ -86,8 +97,7 @@ public class ItemView extends LinearLayout{
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     view.getContext().startActivity(intent);
-                    ((Activity)view.getContext()).overridePendingTransition(0,0);
-
+                    getActivity(view).overridePendingTransition(0,0);
                 }
             });
         }
@@ -104,7 +114,7 @@ public class ItemView extends LinearLayout{
                     Intent intent = new Intent(view.getContext(),MainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     view.getContext().startActivity(intent);
-                    ((Activity)view.getContext()).overridePendingTransition(0,0);
+                    getActivity(view).overridePendingTransition(0,0);
                 }
             });
         }
