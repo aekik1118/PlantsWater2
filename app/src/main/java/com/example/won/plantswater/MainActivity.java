@@ -14,10 +14,12 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
     private ListView listView;
+    private final long FINISH_INTERVAL_TIME = 2000;
+    private long backPressedTime = 0;
 
     public static PlantsDB mDatabase = null;
     public static myAlarmManager myAM;
-
+    public Menu mMenu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,22 +27,40 @@ public class MainActivity extends AppCompatActivity {
         //ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,LIST_MENU);
 
         listView = (ListView) findViewById(R.id.listView1);
-        //listView.setAdapter(adapter);
 
         Log.d(TAG, "Oncreate()");
 
     }
 
     @Override
+    public void onBackPressed() {
+        PlantsList(listView, 1);
+
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
+
+        if(0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime)
+        {
+            super.onBackPressed();
+        }
+
+        else
+        {
+            backPressedTime = tempTime;
+        }
+    }
+    @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
         getMenuInflater().inflate(R.menu.actionbar_actions, menu);
+        mMenu = menu;
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
+        Menu menu;
         int id = item.getItemId();
 
         if(id == R.id.action_insert)
@@ -52,12 +72,18 @@ public class MainActivity extends AppCompatActivity {
 
         if(id == R.id.action_watering)
         {
+            item.setVisible(false);
+            item = mMenu.findItem(R.id.action_delete);
+            item.setVisible(true);
             PlantsList(listView, 1);
             return true;
         }
 
         if(id == R.id.action_delete)
         {
+            item.setVisible(false);
+            item = mMenu.findItem(R.id.action_watering);
+            item.setVisible(true);
             PlantsList(listView, 2);
             return true;
         }
