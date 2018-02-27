@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -43,9 +44,9 @@ public class MainActivity extends AppCompatActivity {
         {
             super.onBackPressed();
         }
-
         else
         {
+            Toast.makeText(this ,"뒤로가기를 한번 더 누르면 종료됩니다",Toast.LENGTH_SHORT).show();
             backPressedTime = tempTime;
         }
     }

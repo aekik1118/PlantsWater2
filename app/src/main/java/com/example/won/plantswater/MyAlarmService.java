@@ -17,6 +17,7 @@ public class MyAlarmService extends Service {
     public MyAlarmService() {
     }
 
+
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
