@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        mMenu.findItem(R.id.action_watering).setVisible(false);
+        mMenu.findItem(R.id.action_delete).setVisible(true);
         PlantsList(listView, 1);
 
         long tempTime = System.currentTimeMillis();
@@ -61,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        Menu menu;
         int id = item.getItemId();
 
         if(id == R.id.action_insert)
