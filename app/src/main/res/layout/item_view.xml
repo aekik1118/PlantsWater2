@@ -6,7 +6,7 @@
     android:orientation="horizontal"
     android:weightSum="5">
 
-    <ImageView
+    <com.example.won.plantswater.RoundedImageView
         android:id="@+id/imageView"
         android:layout_width="0dp"
         android:layout_height="match_parent"
