@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     public static PlantsDB mDatabase = null;
     public static myAlarmManager myAM;
     public static int state = 0;
-    public Menu mMenu;
+    public static Menu mMenu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,11 +36,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(state == 2)
+        if(state == 1)
         {
             mMenu.findItem(R.id.action_watering).setVisible(false);
             mMenu.findItem(R.id.action_delete).setVisible(true);
-            state = 1;
+            state = 0;
             PlantsList(listView, state);
         }
 
@@ -62,6 +62,16 @@ public class MainActivity extends AppCompatActivity {
     {
         getMenuInflater().inflate(R.menu.actionbar_actions, menu);
         mMenu = menu;
+
+        if(state == 2)
+        {
+            MenuItem item = mMenu.findItem(R.id.action_watering);
+            item.setVisible(true);
+
+            item = mMenu.findItem(R.id.action_delete);
+            item.setVisible(false);
+        }
+
         return true;
     }
 
@@ -84,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
             item = mMenu.findItem(R.id.action_delete);
             item.setVisible(true);
 
-            state = 1;
+            state = 0;
             PlantsList(listView, state);
             return true;
         }
@@ -95,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
             item = mMenu.findItem(R.id.action_watering);
             item.setVisible(true);
 
-            state = 2;
+            state = 1;
             PlantsList(listView, state);
             return true;
         }
@@ -107,15 +117,8 @@ public class MainActivity extends AppCompatActivity {
         // 데이터베이스 열기
         openDatabase();
 
-        if(state == 0)
-        {
-            PlantsList(listView, 1);
-        }
+        PlantsList(listView,state);
 
-        else
-        {
-            PlantsList(listView, state);
-        }
         super.onStart();
     }
 

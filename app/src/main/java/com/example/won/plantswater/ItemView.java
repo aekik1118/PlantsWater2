@@ -6,6 +6,7 @@ import android.content.ContextWrapper;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -80,7 +81,7 @@ public class ItemView extends LinearLayout{
 
     public void setBt(final int id, final int water_period, int mid)
     {
-        if(mid == 1)
+        if(mid == 0)
         {
             bt.setText("물주기");
 
@@ -102,7 +103,7 @@ public class ItemView extends LinearLayout{
             });
         }
 
-        if(mid == 2)
+        if(mid == 1 || mid == 2)
         {
             bt.setText("삭제");
 
@@ -111,6 +112,7 @@ public class ItemView extends LinearLayout{
                 public void onClick(View view) {
                     String sql = "DELETE FROM " + PlantsDB.TABLE_NAME + " WHERE _id =" +id;
                     MainActivity.mDatabase.rawQuery(sql);
+                    MainActivity.state = 2;
                     Intent intent = new Intent(view.getContext(),MainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     view.getContext().startActivity(intent);
