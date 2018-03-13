@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.actionbar_actions, menu);
         mMenu = menu;
 
-        if(state == 2)
+        if(state == 1)
         {
             MenuItem item = mMenu.findItem(R.id.action_watering);
             item.setVisible(true);

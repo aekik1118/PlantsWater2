@@ -103,7 +103,7 @@ public class ItemView extends LinearLayout{
             });
         }
 
-        if(mid == 1 || mid == 2)
+        if(mid == 1)
         {
             bt.setText("삭제");
 
@@ -112,7 +112,6 @@ public class ItemView extends LinearLayout{
                 public void onClick(View view) {
                     String sql = "DELETE FROM " + PlantsDB.TABLE_NAME + " WHERE _id =" +id;
                     MainActivity.mDatabase.rawQuery(sql);
-                    MainActivity.state = 2;
                     Intent intent = new Intent(view.getContext(),MainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     view.getContext().startActivity(intent);
