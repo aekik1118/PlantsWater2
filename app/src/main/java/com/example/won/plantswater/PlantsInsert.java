@@ -20,10 +20,13 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
@@ -100,6 +103,25 @@ public class PlantsInsert extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plants_insert);
 
+        Spinner Main_spinner = (Spinner)findViewById(R.id.spinner);
+
+        ArrayAdapter adapter = ArrayAdapter.createFromResource(this,R.array.period,android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        Main_spinner.setAdapter(adapter);
+
+        Main_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                   @Override
+                                                   public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                                       //각 항목 클릭시 포지션값을 토스트에 띄운다.
+                                                       Toast.makeText(getApplicationContext(), Integer.toString(position), Toast.LENGTH_SHORT).show();
+                                                   }
+
+                                                   @Override
+                                                   public void onNothingSelected(AdapterView<?> parent) {
+
+                                                       }}
+            );
+
         btn_capture = (Button) this.findViewById(R.id.button);
         btn_album = (Button) findViewById(R.id.button4);
         iv_view = (ImageView) findViewById(R.id.imageView2);
@@ -124,22 +146,22 @@ public class PlantsInsert extends AppCompatActivity implements View.OnClickListe
         Button btn_add = (Button) this.findViewById(R.id.button1);
         final EditText et_name = (EditText) this.findViewById(R.id.editText);
 
-        final RadioButton rbtn_harf = (RadioButton) this.findViewById(R.id.radioButton3);
+        /*final RadioButton rbtn_harf = (RadioButton) this.findViewById(R.id.radioButton3);
         final RadioButton rbtn_one = (RadioButton) this.findViewById(R.id.radioButton2);
         final RadioButton rbtn_two = (RadioButton) this.findViewById(R.id.radioButton6);
         final RadioButton rbtn_tri = (RadioButton) this.findViewById(R.id.radioButton4);
         final RadioButton rbtn_week = (RadioButton) this.findViewById(R.id.radioButton5);
-        rbtn_harf.setChecked(true);
+        rbtn_harf.setChecked(true);*/
 
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int pr = 0;
+                int pr = 1;
 
                 if (et_name.getText().toString().length() == 0) {
                     Toast.makeText(PlantsInsert.this, "이름을 입력해 주세요", Toast.LENGTH_SHORT).show();
                     return;
-                } else if (rbtn_harf.isChecked())
+                }/* else if (rbtn_harf.isChecked())
                     pr = 12;
                 else if (rbtn_one.isChecked())
                     pr = 24;
@@ -148,7 +170,7 @@ public class PlantsInsert extends AppCompatActivity implements View.OnClickListe
                 else if (rbtn_tri.isChecked())
                     pr = 72;
                 else
-                    pr = 168;
+                    pr = 168;*/
 
                 if(flag == 0)
                 {
@@ -161,6 +183,10 @@ public class PlantsInsert extends AppCompatActivity implements View.OnClickListe
                 Intent intent = new Intent(PlantsInsert.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+
+
+
+
             }
         });
         //btn_agreeJoin.setOnClickListener(this);

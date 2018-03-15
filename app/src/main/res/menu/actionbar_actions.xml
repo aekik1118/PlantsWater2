@@ -17,7 +17,7 @@ tools:context=".MainActivity">
 
 <item android:id="@+id/action_watering"
     android:title="Watering"
-    android:icon="@drawable/ic_action_flower"
+    android:icon="@drawable/ic_action_waterdrop2"
     android:visible="false"
     app:showAsAction="always" />
 
