@@ -105,8 +105,8 @@ public class PlantsInsert extends AppCompatActivity implements View.OnClickListe
 
         Spinner Main_spinner = (Spinner)findViewById(R.id.spinner);
 
-        ArrayAdapter adapter = ArrayAdapter.createFromResource(this,R.array.period,android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter adapter = ArrayAdapter.createFromResource(this,R.array.period, R.layout.spinner_item);
+        adapter.setDropDownViewResource(R.layout.spinner_item_list);
         Main_spinner.setAdapter(adapter);
 
         Main_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

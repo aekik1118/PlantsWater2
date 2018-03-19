@@ -2,6 +2,7 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -21,15 +22,19 @@
             <com.example.won.plantswater.RoundedImageView
                 android:id="@+id/imageView"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="100sp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/cactus" />
+                android:scaleY="0.6"
+                android:scaleX="0.6"
+                app:srcCompat="@drawable/flower" />
 
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="0dp"
                 android:layout_height="100sp"
                 android:layout_weight="1"
+                android:fontFamily="casual"
+                android:gravity="center_vertical|center_horizontal"
                 android:text="@string/TextView" />
 
             <TextView
@@ -37,6 +42,8 @@
                 android:layout_width="0dp"
                 android:layout_height="100sp"
                 android:layout_weight="1"
+                android:fontFamily="casual"
+                android:gravity="center_vertical|center_horizontal"
                 android:text="@string/TextView" />
 
             <Button
@@ -45,6 +52,8 @@
                 android:layout_height="100sp"
                 android:layout_gravity="end"
                 android:layout_weight="1"
+                android:scaleY="0.58"
+                android:scaleX="0.6"
                 android:background="@drawable/waterdrop2" />
 
         </LinearLayout>

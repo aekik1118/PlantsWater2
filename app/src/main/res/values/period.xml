@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- array의 이름은 location 입니다.-->
+    <!-- array의 이름은 period. -->
 
     <string-array name="period">
         <item>반나절</item>
@@ -44,6 +44,7 @@
         <item>38 일</item>
         <item>39 일</item>
         <item>40 일</item>
+
     </string-array>
 
 </resources>
