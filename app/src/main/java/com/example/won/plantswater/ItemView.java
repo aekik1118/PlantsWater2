@@ -6,12 +6,15 @@ import android.content.Context;
 
 import android.content.ContextWrapper;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 
 import android.os.Build;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.view.menu.MenuView;
 import android.view.LayoutInflater;
 
 import android.view.MenuItem;
@@ -20,6 +23,7 @@ import android.view.View;
 
 import android.widget.Button;
 
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import android.widget.LinearLayout;
@@ -40,7 +44,7 @@ public class ItemView extends LinearLayout{
 
     TextView tvRecent;
 
-    Button bt;
+    ImageButton bt;
 
     private Activity getActivity(View view) {
 
@@ -85,7 +89,7 @@ public class ItemView extends LinearLayout{
 
         tvRecent = (TextView)findViewById(R.id.textView3);
 
-        bt = (Button)findViewById(R.id.button2);
+        bt = (ImageButton) findViewById(R.id.button2);
 
     }
 
@@ -134,11 +138,15 @@ public class ItemView extends LinearLayout{
 
             Drawable d = getResources().getDrawable(R.drawable.waterdrop2);
 
-            if(Build.VERSION.SDK_INT >= 16) {
+            bt.setImageDrawable(d);
+
+            // Drawable d = getResources().getDrawable(R.drawable.waterdrop2);
+
+            /*if(Build.VERSION.SDK_INT >= 16) {
                 bt.setBackground(d);
             } else {
                 bt.setBackgroundDrawable(d);
-            }
+            }*/
 
 
             bt.setOnClickListener(new OnClickListener() {
@@ -174,11 +182,15 @@ public class ItemView extends LinearLayout{
 
             Drawable d = getResources().getDrawable(R.drawable.trashcan2);
 
-            if(Build.VERSION.SDK_INT >= 16) {
+            bt.setImageDrawable(d);
+
+
+
+            /*if(Build.VERSION.SDK_INT >= 16) {
                 bt.setBackground(d);
             } else {
                 bt.setBackgroundDrawable(d);
-            }
+            }*/
 
 
 
@@ -186,19 +198,42 @@ public class ItemView extends LinearLayout{
 
                 @Override
 
-                public void onClick(View view) {
+                public void onClick(final View view) {
 
-                    String sql = "DELETE FROM " + PlantsDB.TABLE_NAME + " WHERE _id =" +id;
+                    AlertDialog.Builder alert_confirm = new AlertDialog.Builder(ItemView.this.getContext());
+                    alert_confirm.setMessage("식물을 삭제하시겠습니까?").setCancelable(false).setPositiveButton("확인",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
 
-                    MainActivity.mDatabase.rawQuery(sql);
+                                    String sql = "DELETE FROM " + PlantsDB.TABLE_NAME + " WHERE _id =" +id;
 
-                    Intent intent = new Intent(view.getContext(),MainActivity.class);
+                                    MainActivity.mDatabase.rawQuery(sql);
 
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    Intent intent = new Intent(view.getContext(),MainActivity.class);
 
-                    view.getContext().startActivity(intent);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-                    getActivity(view).overridePendingTransition(0,0);
+                                    view.getContext().startActivity(intent);
+
+                                    getActivity(view).overridePendingTransition(0,0);
+
+
+                                }
+                            }).setNegativeButton("취소",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // 'No'
+                                    return;
+                                }
+                            });
+                    AlertDialog alert = alert_confirm.create();
+                    alert.show();
+
+
+
+
 
                 }
             });

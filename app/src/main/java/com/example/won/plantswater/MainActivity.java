@@ -108,6 +108,8 @@ public class MainActivity extends AppCompatActivity {
             state = 1;
             PlantsList(listView, state);
             return true;
+
+
         }
 
         return super.onOptionsItemSelected(item);
