@@ -44,7 +44,7 @@ public class ItemView extends LinearLayout{
 
     TextView tvRecent;
 
-    ImageButton bt;
+    Button bt;
 
     private Activity getActivity(View view) {
 
@@ -89,7 +89,7 @@ public class ItemView extends LinearLayout{
 
         tvRecent = (TextView)findViewById(R.id.textView3);
 
-        bt = (ImageButton) findViewById(R.id.button2);
+        bt = (Button) findViewById(R.id.button2);
 
     }
 
@@ -136,9 +136,29 @@ public class ItemView extends LinearLayout{
 
         {
 
-            Drawable d = getResources().getDrawable(R.drawable.waterdrop2);
+            Drawable d = getResources().getDrawable(R.drawable.selected);
 
-            bt.setImageDrawable(d);
+            bt.setBackgroundDrawable(d);
+
+            final Button 변수명 = (Button)findViewById(R.id.button2); // 이미지 버튼을 찾는다.
+
+
+
+            bt.setOnClickListener(new OnClickListener() { // 이미지 버튼 이벤트 정의
+
+                @Override
+
+                public void onClick(View v) { //클릭했을경우
+
+
+
+//버튼 클릭 시 발생할 이벤트내용
+
+
+
+                }
+
+            });
 
             // Drawable d = getResources().getDrawable(R.drawable.waterdrop2);
 
@@ -180,9 +200,9 @@ public class ItemView extends LinearLayout{
 
         {
 
-            Drawable d = getResources().getDrawable(R.drawable.trashcan2);
+            Drawable d = getResources().getDrawable(R.drawable.selectedtrashcan);
 
-            bt.setImageDrawable(d);
+            bt.setBackgroundDrawable(d);
 
 
 

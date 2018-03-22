@@ -52,7 +52,7 @@ public class PlantsListAdapter extends BaseAdapter {
             itemView.imPhoto = (ImageView)convertView.findViewById(R.id.imageView);
             itemView.tvName = (TextView)convertView.findViewById(R.id.textView2);
             itemView.tvRecent = (TextView)convertView.findViewById(R.id.textView3);
-            itemView.bt = (ImageButton)convertView.findViewById(R.id.button2);
+            itemView.bt = (Button)convertView.findViewById(R.id.button2);
             convertView.setTag(itemView);
         }
         else
