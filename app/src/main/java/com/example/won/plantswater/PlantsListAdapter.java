@@ -7,8 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.List;
@@ -51,7 +51,7 @@ public class PlantsListAdapter extends BaseAdapter {
             itemView = new ItemView(context);
             itemView.imPhoto = (ImageView)convertView.findViewById(R.id.imageView);
             itemView.tvName = (TextView)convertView.findViewById(R.id.textView2);
-            itemView.tvRecent = (TextView)convertView.findViewById(R.id.textView3);
+            itemView.pbRecent = (ProgressBar) convertView.findViewById(R.id.progressbar);
             itemView.bt = (Button)convertView.findViewById(R.id.button2);
             convertView.setTag(itemView);
         }
@@ -67,7 +67,7 @@ public class PlantsListAdapter extends BaseAdapter {
         Log.d(TAG, " uri 테스트 "+plant.getName() +plant.getPhoto());
 
         itemView.setImPhoto(plant.getPhoto());
-        itemView.setTvRecent(plant.getRecent() + "");
+        itemView.setPbRecent(plant.getRecent() + "");
         itemView.setBt(plant.getId(),plant.getWater_period(), id);
 
         return convertView;

@@ -37,14 +37,25 @@
                 android:gravity="center_vertical|center_horizontal"
                 android:text="@string/TextView" />
 
-            <TextView
+            <ProgressBar
+                android:id="@+id/progressbar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="40sp"
+                android:layout_weight="1"
+                android:gravity="center_vertical|center_horizontal"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:progressDrawable="@drawable/progressbar1"
+                android:max = "100"/>
+
+            <!--<TextView
                 android:id="@+id/textView3"
                 android:layout_width="0dp"
                 android:layout_height="100sp"
                 android:layout_weight="1"
                 android:fontFamily="casual"
                 android:gravity="center_vertical|center_horizontal"
-                android:text="@string/TextView" />
+                android:text="@string/TextView" />-->
 
            <!-- <ImageButton
                 android:id="@+id/button2"
