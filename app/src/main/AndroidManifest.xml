@@ -17,6 +17,7 @@
         android:largeHeap="true"
         android:theme="@style/AppTheme"
 
+
         >
 
         <provider
@@ -24,19 +25,31 @@
             android:authorities="com.example.won.plantswater.provider"
             android:exported="false"
             android:grantUriPermissions="true">
+
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_path"/>
         </provider>
 
         <activity android:name=".MainActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
-        <activity android:name=".PlantsInsert" />
+
+        <activity android:name=".PlantsInsert"
+
+            android:windowSoftInputMode="adjustNothing">
+
+        </activity>
+
+
+
+
         <receiver android:name=".myAlarmReceiver">
         </receiver>
 
