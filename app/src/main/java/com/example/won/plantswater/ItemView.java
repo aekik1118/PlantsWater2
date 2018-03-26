@@ -1,34 +1,25 @@
 package com.example.won.plantswater;
 
 import android.app.Activity;
-
 import android.content.Context;
-
 import android.content.ContextWrapper;
-
 import android.content.DialogInterface;
 import android.content.Intent;
-
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-
-import android.os.Build;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.view.menu.MenuView;
 import android.view.LayoutInflater;
-
-import android.view.MenuItem;
-
 import android.view.View;
-
 import android.widget.Button;
-
-import android.widget.ImageButton;
 import android.widget.ImageView;
-
 import android.widget.LinearLayout;
-
+import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static com.example.won.plantswater.MainActivity.myAM;
 
@@ -42,7 +33,7 @@ public class ItemView extends LinearLayout{
 
     TextView tvName;
 
-    TextView tvRecent;
+    ProgressBar pbRecent;
 
     Button bt;
 
@@ -87,7 +78,7 @@ public class ItemView extends LinearLayout{
 
         tvName = (TextView)findViewById(R.id.textView2);
 
-        tvRecent = (TextView)findViewById(R.id.textView3);
+        pbRecent = (ProgressBar)findViewById(R.id.progressbar);
 
         bt = (Button) findViewById(R.id.button2);
 
@@ -123,9 +114,21 @@ public class ItemView extends LinearLayout{
         imPhoto.setImageURI(photo);
     }
 
-    public void setTvRecent(String Recent)
+    public void setPbRecent(String Recent, int period)
     {
-        tvRecent.setText(Recent);
+        long now = System.currentTimeMillis();
+        Date nowDate = new Date(now);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:MM", java.util.Locale.getDefault());
+        pbRecent.setMax(period * 60 * 60);
+
+        try {
+            Date recentDate = dateFormat.parse(Recent);
+            long duration = (nowDate.getTime() - recentDate.getTime()) * 1000;
+            pbRecent.setProgress((int)duration);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setBt(final int id, final int water_period, int mid)

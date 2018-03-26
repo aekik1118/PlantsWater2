@@ -67,7 +67,7 @@ public class PlantsListAdapter extends BaseAdapter {
         Log.d(TAG, " uri 테스트 "+plant.getName() +plant.getPhoto());
 
         itemView.setImPhoto(plant.getPhoto());
-        itemView.setPbRecent(plant.getRecent() + "");
+        itemView.setPbRecent(plant.getRecent() + "", plant.getWater_period());
         itemView.setBt(plant.getId(),plant.getWater_period(), id);
 
         return convertView;
