@@ -50,6 +50,7 @@ public class PlantsInsert extends AppCompatActivity implements View.OnClickListe
 
     Uri photoURI;
     int flag;
+    int pr;
 
     private String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}; //권한 설정 변수
     private static final int MULTIPLE_PERMISSIONS = 101; //권한 동의 여부 문의 후 CallBack 함수에 쓰일 변수
@@ -104,6 +105,7 @@ public class PlantsInsert extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_plants_insert);
 
         Spinner Main_spinner = (Spinner)findViewById(R.id.spinner);
+        pr = 12;
 
         ArrayAdapter adapter = ArrayAdapter.createFromResource(this,R.array.period, R.layout.spinner_item);
         adapter.setDropDownViewResource(R.layout.spinner_item_list);
@@ -113,9 +115,13 @@ public class PlantsInsert extends AppCompatActivity implements View.OnClickListe
                                                    @Override
                                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                                        //각 항목 클릭시 포지션값을 토스트에 띄운다.
-                                                       Toast.makeText(getApplicationContext(), Integer.toString(position), Toast.LENGTH_SHORT).show();
-                                                   }
+                                                       //Toast.makeText(getApplicationContext(), Integer.toString(position), Toast.LENGTH_SHORT).show();
 
+                                                       if(position == 0)
+                                                           pr = 12;
+                                                       else
+                                                           pr = position * 24;
+                                                   }
                                                    @Override
                                                    public void onNothingSelected(AdapterView<?> parent) {
 
@@ -156,21 +162,10 @@ public class PlantsInsert extends AppCompatActivity implements View.OnClickListe
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int pr = 1;
-
                 if (et_name.getText().toString().length() == 0) {
                     Toast.makeText(PlantsInsert.this, "이름을 입력해 주세요", Toast.LENGTH_SHORT).show();
                     return;
-                }/* else if (rbtn_harf.isChecked())
-                    pr = 12;
-                else if (rbtn_one.isChecked())
-                    pr = 24;
-                else if (rbtn_two.isChecked())
-                    pr = 48;
-                else if (rbtn_tri.isChecked())
-                    pr = 72;
-                else
-                    pr = 168;*/
+                }
 
                 if(flag == 0)
                 {
@@ -178,6 +173,9 @@ public class PlantsInsert extends AppCompatActivity implements View.OnClickListe
                 }
                 else
                     MainActivity.mDatabase.insertData(et_name.getText().toString(),mCurrentPhotoPath.toString(), pr);
+
+
+                Log.d(" ", " pr 테스트 "+pr);
 
                 Toast.makeText(PlantsInsert.this, "식물 추가 완료", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(PlantsInsert.this, MainActivity.class);

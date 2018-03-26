@@ -1,17 +1,31 @@
 package com.example.won.plantswater;
 
 import android.app.Activity;
+
 import android.content.Context;
+
 import android.content.ContextWrapper;
+
 import android.content.DialogInterface;
 import android.content.Intent;
+
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+
+import android.os.Build;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.view.menu.MenuView;
 import android.view.LayoutInflater;
+
+import android.view.MenuItem;
+
 import android.view.View;
+
 import android.widget.Button;
+
+import android.widget.ImageButton;
 import android.widget.ImageView;
+
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -132,45 +146,11 @@ public class ItemView extends LinearLayout{
     }
 
     public void setBt(final int id, final int water_period, int mid)
-
     {
-
         if(mid == 0)
-
         {
-
             Drawable d = getResources().getDrawable(R.drawable.selected);
-
             bt.setBackgroundDrawable(d);
-
-            final Button 변수명 = (Button)findViewById(R.id.button2); // 이미지 버튼을 찾는다.
-
-
-
-            bt.setOnClickListener(new OnClickListener() { // 이미지 버튼 이벤트 정의
-
-                @Override
-
-                public void onClick(View v) { //클릭했을경우
-
-
-
-//버튼 클릭 시 발생할 이벤트내용
-
-
-
-                }
-
-            });
-
-            // Drawable d = getResources().getDrawable(R.drawable.waterdrop2);
-
-            /*if(Build.VERSION.SDK_INT >= 16) {
-                bt.setBackground(d);
-            } else {
-                bt.setBackgroundDrawable(d);
-            }*/
-
 
             bt.setOnClickListener(new OnClickListener() {
                 @Override
@@ -179,15 +159,11 @@ public class ItemView extends LinearLayout{
                     String sql = "UPDATE " + PlantsDB.TABLE_NAME + " SET RECENT = CURRENT_TIMESTAMP WHERE _id =" + id;
 
                     MainActivity.mDatabase.rawQuery(sql);
-
                     myAM = myAlarmManager.getInstance(view.getContext());
-
                     myAM.setAlarm(id,water_period,tvName.getText().toString());
-
                     Intent intent = new Intent(view.getContext(),MainActivity.class);
 
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 
                     view.getContext().startActivity(intent);
@@ -196,26 +172,13 @@ public class ItemView extends LinearLayout{
 
                 }
             });
-
         }
-
-        if(mid == 1)
-
+        else if(mid == 1)
         {
 
             Drawable d = getResources().getDrawable(R.drawable.selectedtrashcan);
 
             bt.setBackgroundDrawable(d);
-
-
-
-            /*if(Build.VERSION.SDK_INT >= 16) {
-                bt.setBackground(d);
-            } else {
-                bt.setBackgroundDrawable(d);
-            }*/
-
-
 
             bt.setOnClickListener(new OnClickListener() {
 
@@ -236,11 +199,8 @@ public class ItemView extends LinearLayout{
                                     Intent intent = new Intent(view.getContext(),MainActivity.class);
 
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
                                     view.getContext().startActivity(intent);
-
                                     getActivity(view).overridePendingTransition(0,0);
-
 
                                 }
                             }).setNegativeButton("취소",
@@ -253,10 +213,6 @@ public class ItemView extends LinearLayout{
                             });
                     AlertDialog alert = alert_confirm.create();
                     alert.show();
-
-
-
-
 
                 }
             });
