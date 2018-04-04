@@ -7,35 +7,32 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="10sp">
-
-    </LinearLayout>
-        <LinearLayout
+    <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="105sp"
             android:orientation="horizontal"
+            android:background="@drawable/leafborder"
             android:weightSum="4">
 
             <com.example.won.plantswater.RoundedImageView
                 android:id="@+id/imageView"
                 android:layout_width="0dp"
-                android:layout_height="100sp"
+                android:layout_height="120sp"
                 android:layout_weight="1"
                 android:scaleY="0.6"
                 android:scaleX="0.6"
-                app:srcCompat="@drawable/flower" />
+                app:srcCompat="@drawable/plantpot" />
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="0dp"
-                android:layout_height="100sp"
-                android:layout_weight="1"
-                android:fontFamily="casual"
-                android:gravity="center_vertical|center_horizontal"
-                android:text="@string/TextView" />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="0dp"
+            android:layout_height="100sp"
+            android:layout_weight="1"
+            android:fontFamily="casual"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/TextView"
+            android:textColor="@android:color/darker_gray"
+            android:textStyle="bold" />
 
             <ProgressBar
                 android:id="@+id/progressbar"
@@ -74,8 +71,8 @@
                         android:layout_height="100sp"
                         android:layout_gravity="end"
                         android:layout_weight="1"
-                        android:scaleY="0.58"
-                        android:scaleX="0.6"
+                        android:scaleY="0.45"
+                        android:scaleX="0.45"
                         android:background="@drawable/selected" />
 
 
