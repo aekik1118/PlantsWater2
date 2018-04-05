@@ -34,7 +34,7 @@ public class MyAlarmService extends Service {
         Intent intent1 = new Intent(MyAlarmService.this,MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(MyAlarmService.this,plantId,intent1,0);
         Notification.Builder builder = new Notification.Builder(getApplicationContext());
-        builder.setSmallIcon(R.drawable.cactus)
+        builder.setSmallIcon(R.drawable.plantpot)
                 .setContentTitle(name)
                 .setContentText("목이말라요 물을 주세요!!")
                 .setContentIntent(pendingIntent)

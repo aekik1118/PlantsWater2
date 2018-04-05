@@ -5,16 +5,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="10sp">
 
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="105sp"
+            android:layout_height="100sp"
             android:orientation="horizontal"
-            android:background="@drawable/leafborder"
+            android:background="#FFFFFF"
+
             android:weightSum="4">
 
-            <com.example.won.plantswater.RoundedImageView
+        <com.example.won.plantswater.RoundedImageView
                 android:id="@+id/imageView"
                 android:layout_width="0dp"
                 android:layout_height="120sp"

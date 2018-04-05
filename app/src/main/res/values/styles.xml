@@ -1,19 +1,17 @@
 <resources>
 
     <!-- Base application theme. -->
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+
         <!-- Customize your theme here. -->
+
         <item name="colorPrimary">#BCFF66</item>
+
         <item name="colorPrimaryDark">#000000</item>
+
         <item name="colorAccent">@color/colorAccent</item>
         
-    </style>
-
-    <style name="ActionBarTextColor" parent="android:TextAppearance.Holo.Widget.ActionBar.Title">
-
-        <item name="android:textColor">#a2cc1f</item>
-
-
     </style>
 
 </resources>
