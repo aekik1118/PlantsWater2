@@ -1,6 +1,11 @@
 package com.example.won.plantswater;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -29,6 +34,17 @@ public class MainActivity extends AppCompatActivity {
         //ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,LIST_MENU);
 
         listView = (ListView) findViewById(R.id.listView1);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            android.app.NotificationManager notificationManager = (android.app.NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE); NotificationChannel channelMessage = new NotificationChannel("channel_id", "channel_name", android.app.NotificationManager.IMPORTANCE_DEFAULT);
+            channelMessage.setDescription("channel description");
+            channelMessage.enableLights(true);
+            channelMessage.setLightColor(Color.GREEN);
+            channelMessage.enableVibration(true);
+            channelMessage.setVibrationPattern(new long[]{100, 200, 100, 200});
+            channelMessage.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+            notificationManager.createNotificationChannel(channelMessage);
+        }
 
         Log.d(TAG, "Oncreate()");
 
@@ -71,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
             item = mMenu.findItem(R.id.action_delete);
             item.setVisible(false);
         }
-
         return true;
     }
 
@@ -108,8 +123,6 @@ public class MainActivity extends AppCompatActivity {
             state = 1;
             PlantsList(listView, state);
             return true;
-
-
         }
 
         return super.onOptionsItemSelected(item);
@@ -118,9 +131,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         // 데이터베이스 열기
         openDatabase();
-
         PlantsList(listView,state);
-
         super.onStart();
     }
 

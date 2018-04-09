@@ -68,30 +68,6 @@ public class myAlarmManager {
         {
             AM.set(AlarmManager.RTC_WAKEUP,cal.getTimeInMillis(),sender);
         }
-        Log.d(TAG, "setAM");
-    }
-
-    private long getTriggerAtMillis(int hourOfDay, int minute) {
-        GregorianCalendar currentCalendar = (GregorianCalendar) GregorianCalendar.getInstance();
-        int currentHourOfDay = currentCalendar.get(GregorianCalendar.HOUR_OF_DAY);
-        int currentMinute = currentCalendar.get(GregorianCalendar.MINUTE);
-
-        if ( currentHourOfDay < hourOfDay || ( currentHourOfDay == hourOfDay && currentMinute < minute ) )
-            return getTimeInMillis(false, hourOfDay, minute);
-        else
-            return getTimeInMillis(true, hourOfDay, minute);
-    }
-    private long getTimeInMillis(boolean tomorrow, int hourOfDay, int minute) {
-        GregorianCalendar calendar = (GregorianCalendar) GregorianCalendar.getInstance();
-
-        if ( tomorrow )
-            calendar.add(GregorianCalendar.DAY_OF_YEAR, 1);
-
-        calendar.set(GregorianCalendar.HOUR_OF_DAY, hourOfDay);
-        calendar.set(GregorianCalendar.MINUTE, minute);
-        calendar.set(GregorianCalendar.SECOND, 0);
-        calendar.set(GregorianCalendar.MILLISECOND, 0);
-
-        return calendar.getTimeInMillis();
+        Log.d(TAG, "setAM" + cal.getTimeInMillis());
     }
 }

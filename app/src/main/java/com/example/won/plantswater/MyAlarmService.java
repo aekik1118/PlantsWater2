@@ -12,11 +12,13 @@ import android.util.Log;
 public class MyAlarmService extends Service {
 
     public static final String TAG = "MyAlarmService";
-
-
     public MyAlarmService() {
     }
-
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        startForeground(1,new Notification());
+    }
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -30,7 +32,7 @@ public class MyAlarmService extends Service {
         int plantId = intent.getIntExtra("pid",0);
         String name = intent.getStringExtra("pname");
 
-        NotificationManager notificationManager = ( NotificationManager )getSystemService(this.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = ( NotificationManager )getSystemService(NOTIFICATION_SERVICE);
         Intent intent1 = new Intent(MyAlarmService.this,MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(MyAlarmService.this,plantId,intent1,0);
         Notification.Builder builder = new Notification.Builder(getApplicationContext());
@@ -44,6 +46,10 @@ public class MyAlarmService extends Service {
                     .setPriority(Notification.PRIORITY_HIGH)
                     .setVisibility(Notification.VISIBILITY_PUBLIC);
         }
+        if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        {
+            builder.setChannelId("channel_id");
+        }
 
         Notification noti;
         if(Build.VERSION.SDK_INT < 16)
@@ -53,7 +59,7 @@ public class MyAlarmService extends Service {
 
         noti.flags |= Notification.FLAG_AUTO_CANCEL;
         notificationManager.notify(plantId,noti);
-        Log.d(TAG, "onStartCommand");
+        Log.d(TAG, "onStartCommand " + name);
         return super.onStartCommand(intent, flags, startId);
     }
 

@@ -16,8 +16,6 @@
         android:supportsRtl="true"
         android:largeHeap="true"
         android:theme="@style/AppTheme"
-
-
         >
 
         <provider
@@ -42,23 +40,17 @@
         </activity>
 
         <activity android:name=".PlantsInsert"
-
             android:windowSoftInputMode="adjustNothing">
-
         </activity>
-
-
-
-
-        <receiver android:name=".myAlarmReceiver">
+        <receiver android:name=".myAlarmReceiver"
+            android:enabled="true"
+            android:exported="false">
         </receiver>
 
         <service
             android:name=".MyAlarmService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="false"></service>
     </application>
-
     <uses-feature android:name="android.hardware.camera" />
-
 </manifest>

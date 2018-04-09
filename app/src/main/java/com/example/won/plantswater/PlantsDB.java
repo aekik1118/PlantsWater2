@@ -34,7 +34,6 @@ public class PlantsDB {
         if (database == null) {
             database = new PlantsDB(context);
         }
-
         return database;
     }
 
@@ -64,7 +63,6 @@ public class PlantsDB {
                 Log.e(TAG, "Exception in CREATE_SQL", ex);
             }
         }
-
 
         public void onOpen(SQLiteDatabase db) {
             println("opened database [" + BasicInfo.DATABASE_NAME + "].");
@@ -102,20 +100,27 @@ public class PlantsDB {
             Plants plant = null;
 
 
-            while(cursor.moveToNext()){
-                plant = new Plants();
-                plant.setName(cursor.getString(0));
-                plant.setWater_period(cursor.getInt(1));
+            try{
+                while(cursor.moveToNext()){
+                    plant = new Plants();
+                    plant.setName(cursor.getString(0));
+                    plant.setWater_period(cursor.getInt(1));
 
-                String url = cursor.getString(2);
-                plant.setPhoto(url);
-                Log.d(TAG, " uri 테스트 33 "+url);
+                    String url = cursor.getString(2);
+                    plant.setPhoto(url);
+                    Log.d(TAG, " uri 테스트 33 "+url);
 
-                plant.setRecent(cursor.getString(3));
-                plant.setId(cursor.getInt(4));
+                    plant.setRecent(cursor.getString(3));
+                    plant.setId(cursor.getInt(4));
 
-                plants.add(plant);
+                    plants.add(plant);
+                }
+            }catch (Exception e){
+
+            }finally {
+                cursor.close();
             }
+           // db.close();
             println("getAllPlants\n");
             return plants;
         }
@@ -154,6 +159,7 @@ public class PlantsDB {
         return true;
     }
 
+
     public Cursor rawQuery(String SQL) {
         println("\nexecuteQuery called.\n");
 
@@ -164,7 +170,6 @@ public class PlantsDB {
         } catch(Exception ex) {
             Log.e(TAG, "Exception in executeQuery", ex);
         }
-
         return c1;
     }
 

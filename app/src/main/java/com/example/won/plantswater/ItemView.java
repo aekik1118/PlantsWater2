@@ -167,7 +167,6 @@ public class ItemView extends LinearLayout{
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 
                     view.getContext().startActivity(intent);
-
                     getActivity(view).overridePendingTransition(0,0);
 
                 }
@@ -177,7 +176,6 @@ public class ItemView extends LinearLayout{
         {
 
             Drawable d = getResources().getDrawable(R.drawable.selectedtrashcan);
-
             bt.setBackgroundDrawable(d);
 
             bt.setOnClickListener(new OnClickListener() {
@@ -195,9 +193,7 @@ public class ItemView extends LinearLayout{
                                     String sql = "DELETE FROM " + PlantsDB.TABLE_NAME + " WHERE _id =" +id;
 
                                     MainActivity.mDatabase.rawQuery(sql);
-
                                     Intent intent = new Intent(view.getContext(),MainActivity.class);
-
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     view.getContext().startActivity(intent);
                                     getActivity(view).overridePendingTransition(0,0);

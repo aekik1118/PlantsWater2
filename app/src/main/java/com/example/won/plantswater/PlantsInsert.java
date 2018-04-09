@@ -43,6 +43,8 @@ public class PlantsInsert extends AppCompatActivity implements View.OnClickListe
     private static final int PICK_FROM_ALBUM = 2; //앨범에서 사진 가져오기
     private static final int CROP_FROM_CAMERA = 3; //가져온 사진을 자르기 위한 변수
 
+    public static final String TAG = "PlantsInsert";
+
     Button btn_capture, btn_album;
     ImageView iv_view;
 
@@ -70,7 +72,6 @@ public class PlantsInsert extends AppCompatActivity implements View.OnClickListe
                         } else if (permissions[i].equals(this.permissions[1])) {
                             if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
                                 showNoPermissionToastAndFinish();
-
                             }
                         } else if (permissions[i].equals(this.permissions[2])) {
                             if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
@@ -152,13 +153,6 @@ public class PlantsInsert extends AppCompatActivity implements View.OnClickListe
         Button btn_add = (Button) this.findViewById(R.id.button1);
         final EditText et_name = (EditText) this.findViewById(R.id.editText);
 
-        /*final RadioButton rbtn_harf = (RadioButton) this.findViewById(R.id.radioButton3);
-        final RadioButton rbtn_one = (RadioButton) this.findViewById(R.id.radioButton2);
-        final RadioButton rbtn_two = (RadioButton) this.findViewById(R.id.radioButton6);
-        final RadioButton rbtn_tri = (RadioButton) this.findViewById(R.id.radioButton4);
-        final RadioButton rbtn_week = (RadioButton) this.findViewById(R.id.radioButton5);
-        rbtn_harf.setChecked(true);*/
-
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -167,30 +161,28 @@ public class PlantsInsert extends AppCompatActivity implements View.OnClickListe
                     return;
                 }
 
+                Log.d(TAG, " pr 테스트 "+pr);
+
                 if(flag == 0)
                 {
                     MainActivity.mDatabase.insertData(et_name.getText().toString(), null, pr);
                 }
                 else
+                {
                     MainActivity.mDatabase.insertData(et_name.getText().toString(),mCurrentPhotoPath.toString(), pr);
+                }
 
-
-                Log.d(" ", " pr 테스트 "+pr);
+                Log.d(TAG, " pr 테스트 "+pr);
 
                 Toast.makeText(PlantsInsert.this, "식물 추가 완료", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(PlantsInsert.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-
-
-
-
             }
         });
         //btn_agreeJoin.setOnClickListener(this);
 
     }
-
 
     private boolean checkPermissions() {
         int result;
@@ -207,8 +199,6 @@ public class PlantsInsert extends AppCompatActivity implements View.OnClickListe
         }
         return true;
     }
-
-
 
     private void takePhoto() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE); //사진을 찍기 위하여 설정합니다.

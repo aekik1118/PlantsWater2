@@ -3,6 +3,7 @@ package com.example.won.plantswater;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 
 /**
@@ -21,7 +22,10 @@ public class myAlarmReceiver extends BroadcastReceiver {
         Serviceintent.putExtra("pname",intent.getStringExtra("pname"));
         Log.d(TAG, "onReceive"+intent.getIntExtra("pid",0));
 
-        context.startService(Serviceintent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(Serviceintent);
+        } else {
+            context.startService(Serviceintent);
+        }
     }
-
 }
