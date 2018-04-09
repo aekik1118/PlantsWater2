@@ -3,10 +3,16 @@
     <!-- array의 이름은 period. -->
 
     <string-array name="period">
+        <item>물 주기 알림 기간</item>
+
         <item>반나절</item>
+
         <item>1 일</item>
+
         <item>2 일</item>
+
         <item>3 일</item>
+
         <item>4 일</item>
         <item>5 일</item>
         <item>6 일</item>

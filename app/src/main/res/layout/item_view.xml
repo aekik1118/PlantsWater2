@@ -12,7 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="100sp"
             android:orientation="horizontal"
-            android:background="#FFFFFF"
+            android:background="@drawable/list_background"
 
             android:weightSum="4">
 

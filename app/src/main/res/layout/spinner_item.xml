@@ -8,4 +8,6 @@
     android:layout_height="wrap_content"
     android:textColor="@android:color/holo_blue_light"
     android:ellipsize="marquee"
+    android:textStyle="bold"
+    android:fontFamily="casual"
     />
